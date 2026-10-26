@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Temple of Athena | Храм Афины</title>
+<style>
+:root{--gold:#f3c969;--cream:#f7f0df;--ink:#111722;--glass:rgba(13,19,29,.72)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#10151d;color:var(--cream);font-family:'Palatino Linotype',Palatino,Georgia,serif}
+body{background:#10151d}.deck{position:relative;width:100vw;height:100vh;overflow:hidden;background:#111}
+.slide{position:absolute;inset:0;display:flex;align-items:center;padding:clamp(24px,6vw,90px);opacity:0;visibility:hidden;transform:scale(.97) translateX(32px);filter:blur(8px);transition:opacity .8s ease,transform 1s cubic-bezier(.2,.8,.2,1),filter .8s ease,visibility .8s;isolation:isolate}
+.slide.active{opacity:1;visibility:visible;transform:scale(1) translateX(0);filter:blur(0)}
+.slide::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,12,20,.91) 0%,rgba(7,12,20,.72) 48%,rgba(7,12,20,.25) 100%),linear-gradient(0deg,rgba(7,12,20,.5),transparent 50%);z-index:-1}
+.slide::after{content:"";position:absolute;inset:18px;border:1px solid rgba(243,201,105,.58);pointer-events:none;z-index:4;box-shadow:inset 0 0 55px rgba(243,201,105,.035)}
+.slide.active::after{animation:frameglow 4s ease-in-out infinite alternate}
+.slide.leaving{transform:scale(1.045) translateX(-24px);filter:blur(5px)}
+.slide.active .bg{animation:slowzoom 18s ease-in-out infinite alternate}
+
+@keyframes frameglow{from{border-color:rgba(243,201,105,.28);box-shadow:inset 0 0 20px rgba(243,201,105,.02)}to{border-color:rgba(243,201,105,.8);box-shadow:inset 0 0 65px rgba(243,201,105,.09)}}
+h1,h2{font-family:'Palatino Linotype',Palatino,Georgia,serif;text-wrap:balance}
+h1{background:linear-gradient(100deg,#fff8e8 10%,#f3c969 52%,#fff1c6 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+p{letter-spacing:.01em}
+.info{position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.info:hover{transform:translateY(-4px);border-color:rgba(243,201,105,.95)}
+
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;animation:slowzoom 18s ease-in-out infinite alternate;filter:saturate(.8)}
+@keyframes slowzoom{from{transform:scale(1)}to{transform:scale(1.12)}}
+.content{position:relative;max-width:850px;z-index:2;animation:rise .9s both}.active .content{animation:rise .9s both}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.kicker{font:600 12px/1.4 Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+h1{font-size:clamp(46px,8vw,106px);line-height:.93;letter-spacing:-.045em;margin:0 0 24px;text-shadow:0 8px 35px #000}
+h2{font-size:clamp(34px,5vw,66px);line-height:1.02;margin:0 0 20px;letter-spacing:-.025em}
+p{font:clamp(15px,1.5vw,20px)/1.65 Arial,sans-serif;color:#f0eee8;max-width:760px;margin:10px 0}
+.ru{color:#f3d99b!important;font-size:clamp(14px,1.25vw,17px)!important;line-height:1.55!important}
+.rule{width:92px;height:3px;background:var(--gold);margin:22px 0}
+.pill{display:inline-block;border:1px solid rgba(243,201,105,.65);padding:9px 14px;margin:8px 8px 0 0;border-radius:30px;font:12px Arial,sans-serif;letter-spacing:.08em;color:#f8e5b7;background:rgba(10,15,23,.35)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;max-width:900px}
+.info{padding:18px 20px;border:1px solid rgba(243,201,105,.43);background:rgba(10,15,23,.63);backdrop-filter:blur(8px);border-radius:4px;box-shadow:0 12px 35px #0003}
+.info h3{font-size:21px;margin:0 0 8px;color:var(--gold)}.info p{font-size:14px;margin:5px 0}
+.big-number{font-size:clamp(38px,5vw,65px);color:var(--gold);line-height:1}
+.caption{font:11px Arial,sans-serif;letter-spacing:.17em;text-transform:uppercase;color:#d5c8aa;margin-top:22px}
+.intro-screen{position:absolute;inset:0;z-index:30;display:flex;align-items:center;padding:clamp(24px,6vw,90px);overflow:hidden;background:#10151d;transition:opacity 1s ease,visibility 1s ease,transform 1.1s ease}
+.intro-screen.dismissed{opacity:0;visibility:hidden;transform:scale(1.06);pointer-events:none}
+.intro-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.82);animation:slowzoom 22s ease-in-out infinite alternate}
+.intro-vignette{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,9,16,.9),rgba(5,9,16,.6) 55%,rgba(5,9,16,.15)),linear-gradient(0deg,rgba(5,9,16,.55),transparent 60%)}
+.intro-frame{position:absolute;inset:18px;border:1px solid rgba(243,201,105,.65);box-shadow:inset 0 0 70px rgba(243,201,105,.08);pointer-events:none}
+.intro-content{position:relative;z-index:2;max-width:850px;animation:rise 1.2s both}
+.intro-content h1{font-size:clamp(46px,8vw,106px);line-height:.93;letter-spacing:-.045em;margin:0 0 24px;text-shadow:0 8px 35px #000}
+.start-button{display:flex;align-items:center;gap:13px;margin-top:28px;padding:15px 20px;background:linear-gradient(110deg,#f3c969,#ffe8a5);color:#171717;border:0;font-weight:800;letter-spacing:.08em;box-shadow:0 0 28px #f3c96930;animation:buttonpulse 2.6s ease-in-out infinite}
+.start-button span{font-size:16px}.start-button small{font-weight:500;opacity:.72;font-size:10px;letter-spacing:.12em}
+.start-button:hover{transform:translateY(-2px);box-shadow:0 0 35px #f3c96970}
+.intro-author{margin-top:25px;font:10px Arial,sans-serif;letter-spacing:.2em;color:#e2d2ad}
+@keyframes buttonpulse{0%,100%{box-shadow:0 0 18px #f3c96920}50%{box-shadow:0 0 32px #f3c96970}}
+.controls{position:absolute;z-index:10;left:32px;right:32px;bottom:28px;display:flex;align-items:center;gap:12px;font:12px Arial,sans-serif}
+.slide-indicator{position:absolute;top:30px;right:42px;z-index:8;font:11px Arial,sans-serif;letter-spacing:.18em;color:#f5d88e;text-transform:uppercase;background:rgba(8,13,20,.58);border:1px solid rgba(243,201,105,.38);padding:10px 13px;backdrop-filter:blur(8px)}
+.slide-indicator b{font-size:18px;color:#fff3d0;margin-right:7px}
+.chapter-dots{position:absolute;top:64px;right:42px;z-index:8;display:flex;gap:6px}
+.chapter-dots button{padding:0;width:19px;height:3px;border:0;background:#ffffff50;border-radius:4px}
+.chapter-dots button.active{background:var(--gold);box-shadow:0 0 10px #f3c969}
+.credit{position:absolute;left:clamp(28px,6vw,90px);bottom:76px;z-index:3;font:10px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#d5c8aa;opacity:.9}
+
+button{color:var(--cream);background:rgba(8,13,20,.65);border:1px solid rgba(243,201,105,.55);padding:10px 14px;cursor:pointer;border-radius:3px;transition:.2s}
+button:hover{background:var(--gold);color:#111}.progress{height:2px;background:#ffffff35;flex:1;overflow:hidden}.bar{height:100%;width:0;background:var(--gold);transition:width .3s}
+.counter{min-width:52px;text-align:center;letter-spacing:.1em}.hint{opacity:.7}
+.sparks{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.sparks i{position:absolute;width:3px;height:3px;background:#f3c969;border-radius:50%;opacity:.55;animation:float 10s linear infinite;box-shadow:0 0 9px 2px rgba(243,201,105,.35)}
+.sparks i:nth-child(3n){width:5px;height:5px;background:#fff0b4;box-shadow:0 0 15px 3px rgba(255,226,150,.3)}
+.sparks i:nth-child(4n){width:2px;height:2px;background:#b8d9ff}
+
+@keyframes float{from{transform:translateY(105vh) translateX(0);opacity:0}15%{opacity:.6}to{transform:translateY(-10vh) translateX(45px);opacity:0}}
+
+.top-timer{position:absolute;z-index:12;top:25px;left:50%;transform:translateX(-50%);width:min(360px,42vw);padding:9px 13px 10px;background:rgba(8,13,20,.72);border:1px solid rgba(243,201,105,.38);backdrop-filter:blur(10px);box-shadow:0 8px 30px #0004;font:10px Arial,sans-serif;letter-spacing:.15em;color:#e9d7ac}
+.timer-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.timer-label b{font-size:13px;color:#fff0bd;letter-spacing:.08em}.timer-track{height:3px;background:#ffffff30;overflow:hidden}.timer-fill{height:100%;width:100%;background:linear-gradient(90deg,#b57c2c,#ffe8a5);transform-origin:left;box-shadow:0 0 12px #f3c96980}
+.finale-slide{justify-content:center;text-align:center;background:#080b12;overflow:hidden}.finale-slide::before{background:radial-gradient(ellipse at 50% 48%,rgba(37,53,76,.55),rgba(4,7,13,.96) 70%)}.finale-slide::after{border-color:rgba(243,201,105,.78);box-shadow:inset 0 0 80px #f3c9690c,0 0 30px #f3c96908}
+.finale-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,#26364c 0%,#101722 43%,#05070c 100%)}.finale-grid{position:absolute;inset:0;opacity:.15;background-image:linear-gradient(#b7c9df12 1px,transparent 1px),linear-gradient(90deg,#b7c9df12 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(transparent,#000 25%,#000 80%,transparent)}.finale-moon{position:absolute;width:min(52vw,540px);aspect-ratio:1;border-radius:50%;left:50%;top:42%;transform:translate(-50%,-50%);background:radial-gradient(circle at 50% 50%,#f5d99812 0 43%,#f3c96920 44%,#f3c96902 65%,transparent 70%);box-shadow:0 0 90px #f3c9690c}
+.sword-stage{position:absolute;inset:0;pointer-events:none;z-index:2}.sword{position:absolute;width:clamp(70px,10vw,125px);height:clamp(240px,42vh,360px);top:12%;filter:drop-shadow(0 0 14px #c3d9f444)}.sword-left{left:calc(50% - clamp(120px,17vw,210px));transform:rotate(-43deg)}.sword-right{right:calc(50% - clamp(120px,17vw,210px));transform:rotate(43deg) scaleX(-1)}.finale-slide.active .sword-left{animation:swordLeftDuel 6.8s cubic-bezier(.2,.8,.2,1) both}.finale-slide.active .sword-right{animation:swordRightDuel 6.8s cubic-bezier(.2,.8,.2,1) both}.clash-flash{position:absolute;left:50%;top:37%;width:12px;height:12px;border-radius:50%;background:#fff5c9;opacity:0;box-shadow:0 0 25px 15px #f6d78a,0 0 75px 35px #a9d4ff;}.clash-sparks{position:absolute;left:50%;top:37%;width:0;height:0}.clash-sparks i{position:absolute;width:5px;height:38px;background:linear-gradient(#fff9d5,#d6a44e,transparent);border-radius:8px;opacity:0;transform-origin:top;}.clash-sparks i:nth-child(1){--rot:0deg}.clash-sparks i:nth-child(2){--rot:30deg}.clash-sparks i:nth-child(3){--rot:60deg}.clash-sparks i:nth-child(4){--rot:90deg}.clash-sparks i:nth-child(5){--rot:120deg}.clash-sparks i:nth-child(6){--rot:150deg}.clash-sparks i:nth-child(7){--rot:180deg}.clash-sparks i:nth-child(8){--rot:210deg}.clash-sparks i:nth-child(9){--rot:240deg}.clash-sparks i:nth-child(10){--rot:270deg}.clash-sparks i:nth-child(11){--rot:300deg}.clash-sparks i:nth-child(12){--rot:330deg}
+.finale-title{position:relative;z-index:3;margin-top:20px;opacity:1}.finale-slide.active .clash-flash{animation:clashFlash 6.8s ease-out both}.finale-slide.active .clash-sparks i{animation:sparkBurst 6.8s ease-out both}.finale-slide.active .finale-title{animation:titleReveal 6.8s ease both}.finale-kicker{font:10px Arial,sans-serif;letter-spacing:.45em;color:#e6c77f;text-shadow:0 0 18px #f3c96955}.finale-title h2{font-family:Georgia,serif;font-size:clamp(62px,12vw,140px);letter-spacing:.04em;margin:14px 0 9px;color:#fff0c5;text-shadow:0 0 14px #f3c96945,0 0 45px #f3c96920}.finale-underline{width:0;height:2px;margin:0 auto;background:linear-gradient(90deg,transparent,#f3c969,transparent);animation:none}.finale-slide.active .finale-underline{animation:underlineReveal 1.2s 2.1s ease forwards}.finale-title p{margin:16px auto 0;font:10px Arial,sans-serif;letter-spacing:.38em;color:#aeb8c6}.finale-signature{position:absolute;bottom:47px;left:0;right:0;font:9px Arial,sans-serif;letter-spacing:.24em;color:#b8a67e;z-index:3;opacity:.8}
+@keyframes swordLeftDuel{0%{transform:translate(-90px,-45px) rotate(-68deg);opacity:0}10%{opacity:1}23%{transform:translate(72px,12px) rotate(28deg)}32%{transform:translate(60px,0) rotate(18deg)}39%{transform:translate(68px,12px) rotate(28deg)}49%{transform:translate(65px,10px) rotate(24deg)}60%{transform:translate(58px,4px) rotate(18deg)}69%{transform:translate(58px,4px) rotate(18deg)}76%{transform:translate(30px,90px) rotate(35deg)}100%{transform:translate(5px,115vh) rotate(65deg);opacity:0}}
+@keyframes swordRightDuel{0%{transform:translate(90px,-45px) rotate(68deg) scaleX(-1);opacity:0}10%{opacity:1}23%{transform:translate(-72px,12px) rotate(-28deg) scaleX(-1)}32%{transform:translate(-60px,0) rotate(-18deg) scaleX(-1)}39%{transform:translate(-68px,12px) rotate(-28deg) scaleX(-1)}49%{transform:translate(-65px,10px) rotate(-24deg) scaleX(-1)}60%{transform:translate(-58px,4px) rotate(-18deg) scaleX(-1)}69%{transform:translate(-58px,4px) rotate(-18deg) scaleX(-1)}76%{transform:translate(-30px,90px) rotate(-35deg) scaleX(-1)}100%{transform:translate(-5px,115vh) rotate(-65deg) scaleX(-1);opacity:0}}
+@keyframes clashFlash{0%,20%{opacity:0;transform:scale(.1)}25%{opacity:1;transform:scale(1.5)}31%{opacity:.3;transform:scale(3)}38%,100%{opacity:0;transform:scale(0)}}
+@keyframes sparkBurst{0%,22%{opacity:0;transform:rotate(var(--rot)) scaleY(0)}27%{opacity:1;transform:rotate(var(--rot)) scaleY(1)}39%{opacity:0;transform:rotate(var(--rot)) translateY(-35px) scaleY(.2)}100%{opacity:0}}
+@keyframes titleReveal{0%,38%{opacity:0;transform:translateY(16px);filter:blur(8px)}50%{opacity:1;transform:translateY(0);filter:blur(0)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes underlineReveal{to{width:min(280px,48vw)}}
+@media(max-width:650px){.top-timer{top:17px;left:18px;transform:none;width:calc(100% - 190px);min-width:145px;padding:7px 9px}.slide-indicator{top:18px;right:20px;padding:8px 10px}.chapter-dots{top:55px;right:20px}.sword{top:17%;height:30vh}.finale-kicker{letter-spacing:.2em}.finale-title p{letter-spacing:.2em}.finale-signature{bottom:32px;letter-spacing:.12em}}
+@media(prefers-reduced-motion:reduce){.sword-left,.sword-right,.clash-flash,.clash-sparks i,.finale-title,.finale-underline{animation:none!important}.finale-title{opacity:1}.finale-underline{width:min(280px,48vw)}}
+
+@media(max-width:650px){.slide{padding:36px 30px 78px}.slide::after{inset:10px}.grid{grid-template-columns:1fr;gap:8px}.info{padding:12px 14px}.info h3{font-size:17px}.info p{font-size:12px}.content{max-width:100%}.controls{left:20px;right:20px;bottom:18px;gap:7px}.controls button{padding:9px 10px}.hint{display:none}h1{font-size:clamp(43px,13vw,70px)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="intro-screen" id="introScreen">
+    <img class="intro-bg" src="https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?auto=format&fit=crop&w=2200&q=85" alt="Parthenon at sunset">
+    <div class="intro-vignette"></div><div class="intro-frame"></div>
+    <div class="intro-content">
+      <div class="kicker">ANCIENT GREECE · A VISUAL PRESENTATION</div>
+      <h1>The Temple<br>of Athena</h1>
+      <div class="rule"></div>
+      <p>A journey through wisdom, architecture & history</p>
+      <p class="ru">Путешествие в мир мудрости, архитектуры и истории</p>
+      <button class="start-button" id="startPresentation"><span>▶</span> НАЧАТЬ ПРЕЗЕНТАЦИЮ <small>START PRESENTATION</small></button>
+      <div class="intro-author">CREATED BY ЫСМАЙЫЛОВ БАХТИЯР</div>
+    </div>
+  </div>
+  <div class="top-timer" id="topTimer" aria-label="Time remaining on current slide"><div class="timer-label"><span>SLIDE ENDS IN</span><b id="timeLeft">18s</b></div><div class="timer-track"><div class="timer-fill" id="timerFill"></div></div></div>
+  <section class="slide active">
+    <img class="bg" alt="The Parthenon on the Acropolis of Athens" src="https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?auto=format&fit=crop&w=2200&q=85">
+    <div class="sparks"></div><div class="content">
+      <div class="kicker">Ancient Greece · Classical Architecture</div>
+      <h1>The Temple<br>of Athena</h1>
+      <div class="rule"></div>
+      <p>A monument to wisdom, courage, and the spirit of Athens.</p>
+      <p class="ru">Памятник мудрости, мужеству и духу Афин.</p>
+      <span class="pill">ENGLISH + РУССКИЙ</span><span class="pill">AUTO PRESENTATION</span>
+      <div class="caption">Athens, Greece · 5th century BC</div>
+    </div>
+  </section>
+  <section class="slide">
+    <img class="bg" alt="Ancient Greek temple columns" src="https://commons.wikimedia.org/wiki/Special:FilePath/Parthenon-akropolis-athen.jpg">
+    <div class="content">
+      <div class="kicker">01 / Introduction</div><h2>A city and its goddess</h2><div class="rule"></div>
+      <p>Athena was the Greek goddess of wisdom, strategic warfare, crafts, and protection. The city of Athens was named after her.</p>
+      <p class="ru">Афина — древнегреческая богиня мудрости, стратегической войны, ремёсел и покровительства. Город Афины получил её имя.</p>
+      <p>Athenians built sacred monuments to honour their patron goddess.</p><p class="ru">Афиняне возводили священные сооружения в честь своей покровительницы.</p>
+    </div>
+  </section>
+  <section class="slide">
+    <img class="bg" alt="The Parthenon in warm light" src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Parthenon_on_the_Acropolis_in_Athens%2C_Greece.jpg">
+    <div class="content">
+      <div class="kicker">02 / The most famous temple</div><h2>The Parthenon</h2><div class="rule"></div>
+      <p>The Parthenon stands on the Acropolis, a rocky hill above Athens. It was built mainly between 447 and 432 BC and dedicated to Athena Parthenos — “Athena the Virgin.”</p>
+      <p class="ru">Парфенон стоит на Акрополе — скалистом холме над Афинами. Его построили в основном в 447–432 годах до н. э. в честь Афины Парфенос — «Афины-Девы».</p>
+      <span class="pill">ACROPOLIS</span><span class="pill">447–432 BC</span><span class="pill">DORIC ORDER</span>
+    </div>
+  </section>
+  <section class="slide">
+    <img class="bg" alt="Stone columns and classical Greek architecture" src="https://commons.wikimedia.org/wiki/Special:FilePath/Parthenon%2C_Acropolis.jpg">
+    <div class="content">
+      <div class="kicker">03 / Architecture</div><h2>Built for harmony</h2><div class="rule"></div>
+      <div class="grid">
+        <div class="info"><h3>Columns</h3><p>Strong Doric columns create a balanced rhythm.</p><p class="ru">Мощные дорические колонны создают ритмичный и гармоничный облик.</p></div>
+        <div class="info"><h3>Marble</h3><p>The temple was built largely from Pentelic marble.</p><p class="ru">Храм был построен преимущественно из пентелийского мрамора.</p></div>
+        <div class="info"><h3>Proportion</h3><p>Careful proportions make the building feel balanced.</p><p class="ru">Точные пропорции придают зданию ощущение равновесия.</p></div>
+        <div class="info"><h3>Sculpture</h3><p>Pediments and friezes displayed mythological scenes.</p><p class="ru">Фронтоны и фризы украшали сцены из мифологии.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <img class="bg" alt="Ancient Greek ruins and archaeological stones" src="https://commons.wikimedia.org/wiki/Special:FilePath/Athens_Parthenon_Acropolis.jpg">
+    <div class="content">
+      <div class="kicker">04 / Inside the temple</div><h2>Athena’s great statue</h2><div class="rule"></div>
+      <p>Inside the Parthenon stood a monumental statue of Athena made by the sculptor Phidias. It was made of gold and ivory and is now lost.</p>
+      <p class="ru">Внутри Парфенона находилась огромная статуя Афины, созданная скульптором Фидием. Она была выполнена из золота и слоновой кости, но до наших дней не сохранилась.</p>
+      <p>The statue symbolised the city’s wealth, devotion, and identity.</p><p class="ru">Статуя символизировала богатство города, веру и его самобытность.</p>
+    </div>
+  </section>
+  <section class="slide">
+    <img class="bg" alt="Acropolis archaeological site" src="https://commons.wikimedia.org/wiki/Special:FilePath/Front_of_the_Parthenon_on_the_Acropolis_in_Athens%2C_Greece.jpg">
+    <div class="content">
+      <div class="kicker">05 / More than one temple</div><h2>Other temples of Athena</h2><div class="rule"></div>
+      <div class="grid">
+        <div class="info"><h3>Temple of Athena Nike</h3><p>A small elegant temple celebrating victory, near the Acropolis entrance.</p><p class="ru">Небольшой изящный храм, посвящённый победе; расположен у входа на Акрополь.</p></div>
+        <div class="info"><h3>Erechtheion</h3><p>A sacred complex associated with Athena and Poseidon, famous for its Caryatid porch.</p><p class="ru">Священный комплекс, связанный с Афиной и Посейдоном, известный портиком кариатид.</p></div>
+      </div>
+      <p style="margin-top:16px">The Parthenon is the best-known, but it was not the only sacred building connected with Athena.</p>
+      <p class="ru">Парфенон — самый известный, но не единственный храм, связанный с Афиной.</p>
+    </div>
+  </section>
+  <section class="slide">
+    <img class="bg" alt="Ancient Greek ruins at sunset" src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Parthenon_at_the_Acropolis_of_Athens.jpg">
+    <div class="content">
+      <div class="kicker">06 / History and legacy</div><h2>A monument through time</h2><div class="rule"></div>
+      <p>Over the centuries, the Parthenon served different purposes and suffered serious damage, including an explosion in 1687. Today, conservation work helps protect its surviving remains.</p>
+      <p class="ru">На протяжении веков Парфенон использовали по-разному. Он сильно пострадал, в том числе от взрыва в 1687 году. Сегодня специалисты сохраняют его уцелевшие части.</p>
+      <p>Its design continues to influence museums, public buildings, and monuments around the world.</p><p class="ru">Его архитектура до сих пор влияет на облик музеев, общественных зданий и памятников по всему миру.</p>
+    </div>
+  </section>
+  <section class="slide">
+    <img class="bg" alt="The Acropolis of Athens" src="https://commons.wikimedia.org/wiki/Special:FilePath/Parthenon-akropolis-athen.jpg">
+    <div class="content">
+      <div class="kicker">07 / Conclusion</div><h2>Why it matters</h2><div class="rule"></div>
+      <p>The Temple of Athena represents the ancient Greeks’ devotion to their gods, their skill in architecture, and their search for beauty and balance.</p>
+      <p class="ru">Храм Афины отражает почитание богов древними греками, их мастерство в архитектуре и стремление к красоте и гармонии.</p>
+      <p>It remains one of the most recognisable symbols of ancient Greece.</p><p class="ru">Он остаётся одним из самых узнаваемых символов Древней Греции.</p>
+      <div class="caption">End of presentation · Конец презентации</div><p style="font-size:13px;color:#f3d99b;margin-top:18px">Created by Ысмайылов Бахтияр</p>
+    </div>
+  </section>
+
+  <section class="slide finale-slide" id="finaleSlide" aria-label="Toolgool finale">
+    <div class="finale-bg"></div><div class="finale-grid"></div><div class="finale-moon"></div>
+    <div class="finale-sparks" aria-hidden="true"></div>
+    <div class="sword-stage" aria-hidden="true">
+      <svg class="sword sword-left" viewBox="0 0 100 360" role="img" aria-label="Decorative sword"><defs><linearGradient id="bladeA" x1="0" x2="1"><stop stop-color="#fff7d9"/><stop offset=".45" stop-color="#aebdca"/><stop offset="1" stop-color="#fff"/></linearGradient><linearGradient id="goldA"><stop stop-color="#8c5a19"/><stop offset=".5" stop-color="#ffe8a0"/><stop offset="1" stop-color="#a66d22"/></linearGradient></defs><path d="M50 8 L69 214 L50 244 L31 214 Z" fill="url(#bladeA)" stroke="#f5e7bf" stroke-width="2"/><path d="M50 24 L51 214" stroke="#fff" stroke-opacity=".8" stroke-width="2"/><path d="M18 232 Q50 250 82 232 L76 246 Q50 262 24 246 Z" fill="url(#goldA)" stroke="#f6d88e"/><path d="M43 252 L57 252 L58 318 L42 318 Z" fill="#3a2117" stroke="#d8b66c" stroke-width="2"/><path d="M42 316 L58 316 L61 337 L50 350 L39 337 Z" fill="url(#goldA)"/><path d="M44 267 L56 278 L44 289 L56 300" fill="none" stroke="#d9c28c" stroke-width="3"/></svg>
+      <svg class="sword sword-right" viewBox="0 0 100 360" role="img" aria-label="Decorative sword"><defs><linearGradient id="bladeB" x1="0" x2="1"><stop stop-color="#fff"/><stop offset=".55" stop-color="#9daec2"/><stop offset="1" stop-color="#e9f4ff"/></linearGradient><linearGradient id="goldB"><stop stop-color="#7b4816"/><stop offset=".5" stop-color="#ffe4a0"/><stop offset="1" stop-color="#a66d22"/></linearGradient></defs><path d="M50 8 L69 214 L50 244 L31 214 Z" fill="url(#bladeB)" stroke="#e3edf9" stroke-width="2"/><path d="M50 24 L51 214" stroke="#fff" stroke-opacity=".9" stroke-width="2"/><path d="M18 232 Q50 250 82 232 L76 246 Q50 262 24 246 Z" fill="url(#goldB)" stroke="#f6d88e"/><path d="M43 252 L57 252 L58 318 L42 318 Z" fill="#182433" stroke="#d8b66c" stroke-width="2"/><path d="M42 316 L58 316 L61 337 L50 350 L39 337 Z" fill="url(#goldB)"/><path d="M44 267 L56 278 L44 289 L56 300" fill="none" stroke="#d9c28c" stroke-width="3"/></svg>
+      <div class="clash-flash"></div><div class="clash-sparks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="finale-title"><div class="finale-kicker">WISDOM · COURAGE · LEGACY</div><h2>Toolgool</h2><div class="finale-underline"></div><p>THE END OF THE LEGEND</p></div>
+    <div class="finale-signature">CREATED BY ЫСМАЙЫЛОВ БАХТИЯР</div>
+  </section>
+
+  <div class="slide-indicator"><b id="topCount">01</b><span id="chapterName">INTRODUCTION</span></div>
+  <div class="chapter-dots" id="chapterDots"></div>
+  <div class="credit">Created by Ысмайылов Бахтияр · Student presentation</div>
+  <div class="controls">
+    <button id="prev" aria-label="Previous slide">←</button><button id="play" aria-label="Pause or play">Ⅱ</button><button id="next" aria-label="Next slide">→</button>
+    <div class="progress"><div class="bar" id="bar"></div></div><div class="counter" id="counter">01 / 08</div>
+    <button id="sound" aria-label="Toggle sound">♫ ON</button><button id="full" aria-label="Fullscreen">⛶</button>
+    <span class="hint">SPACE: pause · ← →: navigate</span>
+  </div>
+</div>
+<script>
+(() => {
+ const slides=[...document.querySelectorAll('.slide')], bar=document.getElementById('bar'), counter=document.getElementById('counter');
+ let index=0, playing=false, started=false, soundOn=true, timer=null, ticker=null, audioCtx=null, remaining=18000, lastTick=0;
+ const chapters=['INTRODUCTION','ATHENA','THE PARTHENON','ARCHITECTURE','THE STATUE','OTHER TEMPLES','HISTORY','CONCLUSION','TOOLGOOL'];
+ const duration=18000;
+ const timeLeft=document.getElementById('timeLeft'), timerFill=document.getElementById('timerFill');
+ function ambience(){ if(!soundOn)return; try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended')audioCtx.resume(); const now=audioCtx.currentTime; const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.type='sine';o.frequency.setValueAtTime(220,now);o.frequency.exponentialRampToValueAtTime(110,now+1.8);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.035,now+.12);g.gain.exponentialRampToValueAtTime(.0001,now+2);o.connect(g);g.connect(audioCtx.destination);o.start(now);o.stop(now+2.05);}catch(e){} }
+ function show(n){index=(n+slides.length)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===index));counter.textContent=String(index+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');document.getElementById('topCount').textContent=String(index+1).padStart(2,'0');document.getElementById('chapterName').textContent=chapters[index];[...document.querySelectorAll('.chapter-dots button')].forEach((b,i)=>b.classList.toggle('active',i===index));bar.style.width=((index+1)/slides.length*100)+'%';ambience();resetTimer();}
+ function stopClock(){clearTimeout(timer);clearInterval(ticker);timer=null;ticker=null;}
+ function paintClock(){const secs=Math.max(0,Math.ceil(remaining/1000));timeLeft.textContent=secs+'s';timerFill.style.width=Math.max(0,Math.min(100,remaining/duration*100))+'%';}
+ function resetTimer(){stopClock();remaining=duration;lastTick=Date.now();paintClock();if(started&&playing)runClock();}
+ function runClock(){stopClock();lastTick=Date.now();paintClock();ticker=setInterval(()=>{const now=Date.now();remaining-=now-lastTick;lastTick=now;if(remaining<=0){stopClock();show(index+1);return;}paintClock();},100);}
+ function togglePlay(){if(!started){startPresentation();return;}playing=!playing;document.getElementById('play').textContent=playing?'Ⅱ':'▶';if(playing)runClock();else{if(ticker){clearInterval(ticker);ticker=null;}clearTimeout(timer);paintClock();}}
+ function startPresentation(){if(started)return;started=true;playing=true;document.getElementById('introScreen').classList.add('dismissed');document.getElementById('play').textContent='Ⅱ';show(0);ambience();}
+ document.getElementById('startPresentation').onclick=startPresentation;
+ document.getElementById('prev').onclick=()=>{if(started)show(index-1);};document.getElementById('next').onclick=()=>{if(started)show(index+1);};document.getElementById('play').onclick=togglePlay;
+ document.getElementById('sound').onclick=()=>{soundOn=!soundOn;document.getElementById('sound').textContent=soundOn?'♫ ON':'♫ OFF';if(soundOn)ambience();};
+ document.getElementById('full').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();};
+ document.addEventListener('keydown',e=>{if(!started)return;if(e.key==='ArrowRight')show(index+1);if(e.key==='ArrowLeft')show(index-1);if(e.code==='Space'){e.preventDefault();togglePlay();}});
+ const dots=document.getElementById('chapterDots');chapters.forEach((name,i)=>{const b=document.createElement('button');b.title=(i+1)+'. '+name;b.setAttribute('aria-label','Go to slide '+(i+1));b.onclick=()=>show(i);dots.appendChild(b);});
+ document.querySelectorAll('.sparks').forEach(el=>{for(let i=0;i<45;i++){let p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.animationDelay=(Math.random()*10)+'s';p.style.animationDuration=(7+Math.random()*10)+'s';p.style.left=(Math.random()*100)+'%';el.appendChild(p);}});
+ slides.forEach((s,i)=>s.classList.toggle('active',i===0));counter.textContent='01 / '+String(slides.length).padStart(2,'0');document.getElementById('topCount').textContent='01';document.getElementById('chapterName').textContent=chapters[0];bar.style.width=(1/slides.length*100)+'%';paintClock();
+})();
+</script>
+</body>
+</html>
