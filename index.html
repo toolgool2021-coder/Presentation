@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Great Wall of China | Toolgool</title>
+<style>
+:root{--gold:#e8c57a;--cream:#f5efdf;--ink:#0b1119;--glass:rgba(9,15,23,.76);--muted:#c8c5bd}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080d13;color:var(--cream);font-family:Georgia,'Times New Roman',serif}
+button{font:inherit;cursor:pointer}
+.deck{position:relative;width:100vw;height:100dvh;overflow:hidden;background:#080d13;isolation:isolate}
+.slide{position:absolute;inset:0;display:flex;align-items:center;padding:clamp(25px,6vw,92px);opacity:0;visibility:hidden;transform:scale(.975) translateX(28px);filter:blur(7px);transition:opacity .85s ease,transform 1s cubic-bezier(.2,.8,.2,1),filter .8s ease,visibility .85s;isolation:isolate}
+.slide.active{opacity:1;visibility:visible;transform:scale(1) translateX(0);filter:blur(0)}
+.slide::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,10,16,.94),rgba(5,10,16,.76) 49%,rgba(5,10,16,.22)),linear-gradient(0deg,rgba(5,10,16,.65),transparent 58%);z-index:-1}
+.slide::after{content:"";position:absolute;inset:17px;border:1px solid rgba(232,197,122,.55);pointer-events:none;box-shadow:inset 0 0 55px #e8c57a08;z-index:4}
+.slide.active::after{animation:frame 4s ease-in-out infinite alternate}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:saturate(.76) contrast(1.04);animation:zoom 20s ease-in-out infinite alternate}
+@keyframes zoom{to{transform:scale(1.1)}}
+@keyframes frame{to{border-color:#e8c57ac9;box-shadow:inset 0 0 60px #e8c57a0c}}
+.content{position:relative;z-index:2;max-width:900px;animation:rise .9s both}
+.active .content{animation:rise .9s both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.kicker{font:600 11px/1.5 Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:17px}
+h1,h2{margin:0 0 22px;text-wrap:balance}
+h1{font-size:clamp(43px,8.2vw,108px);line-height:.92;letter-spacing:-.045em;color:#fff0ca;text-shadow:0 8px 35px #000}
+h2{font-size:clamp(34px,5.4vw,68px);line-height:1;letter-spacing:-.03em;color:#fff0ca}
+.rule{height:3px;width:90px;background:linear-gradient(90deg,var(--gold),transparent);margin:22px 0}
+p{font:clamp(14px,1.45vw,19px)/1.65 Arial,sans-serif;color:#f0eee8;max-width:790px;margin:10px 0}
+.ru{color:#f1d9a5!important;font-size:clamp(13px,1.2vw,16px)!important;line-height:1.6!important}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pill{border:1px solid #e8c57a80;border-radius:30px;padding:8px 12px;font:10px Arial,sans-serif;letter-spacing:.1em;color:#f5dfac;background:#0a1018a8}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:930px}
+.info{padding:15px 17px;border:1px solid #e8c57a55;background:rgba(8,14,22,.74);backdrop-filter:blur(8px);box-shadow:0 12px 35px #0003;transition:transform .3s,border-color .3s}
+.info:hover{transform:translateY(-4px);border-color:#e8c57a}
+.info h3{margin:0 0 7px;font-size:20px;color:var(--gold)}
+.info p{font-size:13px;line-height:1.5;margin:4px 0}
+.metric-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px}
+.metric{border-left:2px solid var(--gold);padding:5px 0 5px 14px}
+.metric strong{display:block;color:var(--gold);font-size:clamp(28px,4vw,46px);line-height:1.1}
+.metric span{font:10px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#d9d2c3}
+.caption{font:10px Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#d2c4a2;margin-top:24px}
+.sparks{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.sparks i{position:absolute;width:3px;height:3px;background:#f2d18b;border-radius:50%;opacity:.55;box-shadow:0 0 10px 2px #e8c57a66;animation:float 10s linear infinite}
+@keyframes float{from{transform:translateY(105vh) translateX(0);opacity:0}15%{opacity:.7}to{transform:translateY(-10vh) translateX(40px);opacity:0}}
+.intro{position:absolute;inset:0;z-index:30;overflow:hidden;display:flex;align-items:center;padding:clamp(25px,6vw,92px);background:#080d13;transition:opacity 1s,visibility 1s,transform 1.2s}
+.intro.dismissed{opacity:0;visibility:hidden;transform:scale(1.06);pointer-events:none}
+.intro-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.58) saturate(.7);animation:zoom 22s ease-in-out infinite alternate}
+.intro-shade{position:absolute;inset:0;background:linear-gradient(90deg,#050a11ed,#050a11a8 58%,#050a1140),linear-gradient(0deg,#050a11a8,transparent 60%)}
+.intro-frame{position:absolute;inset:17px;border:1px solid #e8c57a99;box-shadow:inset 0 0 60px #e8c57a0c;pointer-events:none}
+.intro-content{position:relative;z-index:4;max-width:850px;animation:rise 1.2s both}
+.intro-content h1{font-size:clamp(42px,8vw,100px)}
+.wall-build{position:absolute;z-index:2;left:0;right:0;bottom:0;height:43%;overflow:hidden;pointer-events:none;opacity:.95;mask-image:linear-gradient(transparent,#000 25%)}
+.wall-build svg{width:100%;height:100%;overflow:visible}
+.brick{fill:#9c8260;stroke:#e6c990;stroke-width:.7;opacity:0;transform-box:fill-box;transform-origin:center;animation:brickBuild .75s cubic-bezier(.2,.8,.2,1) forwards;animation-play-state:paused}
+.brick:nth-of-type(3n){fill:#78664f}.brick:nth-of-type(4n){fill:#b29a73}
+@keyframes brickBuild{0%{opacity:0;transform:translateY(90px) scale(.65);filter:brightness(2)}65%{opacity:1;transform:translateY(-5px) scale(1.03);filter:brightness(1.25)}100%{opacity:.85;transform:translateY(0) scale(1);filter:brightness(1)}}
+.wall-line{fill:none;stroke:#f0d69c;stroke-width:2;stroke-dasharray:1200;stroke-dashoffset:1200;opacity:.7;animation:drawLine 3.8s 1s ease forwards;animation-play-state:paused}
+@keyframes drawLine{to{stroke-dashoffset:0}}
+.start-button{display:inline-flex;align-items:center;gap:13px;margin-top:25px;padding:14px 18px;border:1px solid #fff0bd;background:linear-gradient(110deg,#e8c57a,#ffedb5);color:#12151a;font:800 12px Arial,sans-serif;letter-spacing:.1em;box-shadow:0 0 25px #e8c57a30;transition:transform .25s,box-shadow .25s}
+.start-button:hover{transform:translateY(-3px);box-shadow:0 0 38px #e8c57a80}
+.start-button small{font-size:9px;font-weight:500;opacity:.7}
+.author{margin-top:22px;font:10px Arial,sans-serif;letter-spacing:.22em;color:#e4d1a8}
+.nickname{font:clamp(19px,3vw,34px) Arial,sans-serif;font-weight:800;letter-spacing:.22em;color:#fff0c6;margin-top:18px;opacity:0;transform:translateY(12px);text-shadow:0 0 25px #e8c57a70}.intro.building .brick,.intro.building .wall-line{animation-play-state:running}.intro.building .nickname{animation:nick 1s 2.6s forwards}.intro.building .start-button{opacity:.65;pointer-events:none}
+@keyframes nick{to{opacity:1;transform:translateY(0)}}
+.top-timer{position:absolute;z-index:12;top:23px;left:50%;transform:translateX(-50%);width:min(330px,40vw);padding:8px 12px;background:#080e16c9;border:1px solid #e8c57a55;backdrop-filter:blur(10px);font:10px Arial,sans-serif;letter-spacing:.13em;color:#e9d7ac}
+.timer-label{display:flex;justify-content:space-between;margin-bottom:6px}.timer-label b{font-size:13px;color:#fff0bd}
+.timer-track{height:3px;background:#ffffff30;overflow:hidden}.timer-fill{height:100%;width:100%;background:linear-gradient(90deg,#b57c2c,#ffe8a5);transform-origin:left}
+.indicator{position:absolute;z-index:12;top:25px;right:38px;background:#080e16c9;border:1px solid #e8c57a55;padding:9px 12px;font:10px Arial,sans-serif;letter-spacing:.13em;color:#f3dca8}
+.indicator b{font-size:17px;color:#fff0c6;margin-right:6px}
+.controls{position:absolute;z-index:14;left:30px;right:30px;bottom:22px;display:flex;align-items:center;gap:9px;font:12px Arial,sans-serif}
+.controls button{border:1px solid #e8c57a70;background:#080e16c9;color:#f5e9ce;padding:9px 12px;border-radius:2px;transition:.2s}
+.controls button:hover{background:var(--gold);color:#111}
+.progress{height:2px;background:#ffffff35;flex:1;overflow:hidden}.bar{height:100%;width:0;background:var(--gold);transition:width .35s}
+.counter{min-width:58px;text-align:center;font:10px Arial,sans-serif;letter-spacing:.1em}
+.hint{font:9px Arial,sans-serif;color:#c5bdad;opacity:.7}
+.finale{justify-content:center;text-align:center;background:#070b11;overflow:hidden}
+.finale::before{background:radial-gradient(ellipse at 50% 42%,#283849aa,#05080df7 72%)}
+.finale h2{font-size:clamp(60px,12vw,140px);letter-spacing:.05em;text-shadow:0 0 40px #e8c57a25}
+.finale .content{max-width:900px}
+.final-wall{position:absolute;left:-5%;right:-5%;bottom:13%;height:30%;opacity:.5}
+.final-wall path{fill:none;stroke:#d7b878;stroke-width:3;stroke-dasharray:1500;stroke-dashoffset:1500}
+.finale.active .final-wall path{animation:drawLine 3s .4s ease forwards}
+.finale-tag{font:10px Arial,sans-serif;letter-spacing:.38em;color:#e7c77d}
+.final-line{height:2px;width:0;margin:22px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.finale.active .final-line{animation:finalLine 1.5s 1s forwards}
+@keyframes finalLine{to{width:min(360px,65vw)}}
+.finale-sign{position:absolute;bottom:35px;left:0;right:0;font:9px Arial,sans-serif;letter-spacing:.25em;color:#cbb98f}
+
+/* Cinematic motion layer: animated brush finale, depth, light sweeps and kinetic text */
+.slide::after{transition:border-color .7s,box-shadow .7s}
+.slide.active::before{animation:shadeBreath 9s ease-in-out infinite alternate}
+@keyframes shadeBreath{from{opacity:.82}to{opacity:1}}
+.bg{transform-origin:center;will-change:transform;animation:cinemaPan 24s ease-in-out infinite alternate}
+@keyframes cinemaPan{0%{transform:scale(1.02) translate3d(0,0,0)}100%{transform:scale(1.15) translate3d(-1.5%,1%,0)}}
+.slide.active .content>*{animation:staggerIn .75s cubic-bezier(.16,1,.3,1) both}
+.slide.active .content>*:nth-child(1){animation-delay:.08s}
+.slide.active .content>*:nth-child(2){animation-delay:.18s}
+.slide.active .content>*:nth-child(3){animation-delay:.29s}
+.slide.active .content>*:nth-child(4){animation-delay:.4s}
+.slide.active .content>*:nth-child(5){animation-delay:.51s}
+.slide.active .content>*:nth-child(6){animation-delay:.62s}
+.slide.active .content>*:nth-child(7){animation-delay:.73s}
+@keyframes staggerIn{from{opacity:0;transform:translateY(30px) scale(.985);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.info{position:relative;overflow:hidden}
+.info::after{content:"";position:absolute;inset:-120% auto -120% -40%;width:28%;transform:rotate(20deg);background:linear-gradient(90deg,transparent,#fff2c51c,transparent);transition:left .8s}
+.info:hover::after{left:130%}
+.pill{transition:transform .3s,background .3s,box-shadow .3s}
+.pill:hover{transform:translateY(-3px);background:#e8c57a18;box-shadow:0 5px 20px #e8c57a18}
+.sparks i{animation-name:emberDrift;will-change:transform}
+@keyframes emberDrift{0%{transform:translate3d(0,105vh,0) scale(.3);opacity:0}15%{opacity:.75}55%{transform:translate3d(30px,45vh,0) scale(1.4);opacity:.65}100%{transform:translate3d(-25px,-12vh,0) scale(.2);opacity:0}}
+.intro::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(110deg,transparent 20%,#fff4d00a 42%,#fff4d02b 50%,transparent 62%);transform:translateX(-120%);animation:introSweep 2.8s 1.3s ease-in-out infinite}
+@keyframes introSweep{to{transform:translateX(120%)}}
+.start-button{position:relative;overflow:hidden}
+.start-button::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,#fff9d8a8,transparent);transform:translateX(-130%);animation:buttonGleam 3s 1s ease-in-out infinite}
+@keyframes buttonGleam{55%,100%{transform:translateX(130%)}}
+.wall-build{filter:drop-shadow(0 -8px 25px #e8c57a15)}
+/* Finale: the red 福 symbol is written stroke by stroke, then the signature arrives */
+.finale{background:#05070b}
+.finale::before{background:radial-gradient(ellipse at 50% 36%,#45121a88,#10151ee8 43%,#030508 78%);animation:finalePulse 7s ease-in-out infinite alternate}
+@keyframes finalePulse{to{filter:hue-rotate(-8deg);opacity:.8}}
+.finale::after{border-color:#b72b3544;box-shadow:inset 0 0 100px #b6001910}
+.finale .calligraphy{position:absolute;top:7%;left:50%;width:min(43vh,45vw,340px);aspect-ratio:1;transform:translateX(-50%);display:grid;place-items:center;z-index:3;filter:drop-shadow(0 0 25px #d5092233)}
+.finale .ink-aura{position:absolute;inset:4%;border-radius:50%;background:radial-gradient(circle,#d90f2018 0,transparent 68%);animation:inkAura 3.8s ease-in-out infinite alternate}
+@keyframes inkAura{to{transform:scale(1.25);opacity:.45}}
+.finale .fu-svg{position:relative;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 10px #ef172a22)}
+.finale .ink-stroke{stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:none}
+.finale.active .ink-stroke{opacity:1;animation:brushWrite 1.05s cubic-bezier(.25,.7,.2,1) forwards}
+.finale.active .s1{animation-delay:.45s}.finale.active .s2{animation-delay:.85s}.finale.active .s3{animation-delay:1.15s}.finale.active .s4{animation-delay:1.48s}.finale.active .s5{animation-delay:1.88s}.finale.active .s6{animation-delay:2.12s}.finale.active .s7{animation-delay:2.36s}.finale.active .s8{animation-delay:2.58s}.finale.active .s9{animation-delay:2.95s}
+/* JS measures each stroke so the dash animation follows its actual length */
+@keyframes brushWrite{to{stroke-dashoffset:0;filter:drop-shadow(0 0 4px #ff1a2d)}}
+.ink-seal{position:absolute;right:-3%;bottom:6%;font:800 10px Arial,sans-serif;letter-spacing:.25em;color:#f15b60;border:1px solid #d722375c;padding:7px 9px;opacity:0;transform:rotate(-8deg) scale(.7);background:#21060bb8}
+.finale.active .ink-seal{animation:sealStamp .45s 3.7s cubic-bezier(.2,1.8,.4,1) forwards}
+@keyframes sealStamp{to{opacity:.95;transform:rotate(-8deg) scale(1)}}
+.finale-title{position:absolute;z-index:4;left:18px;right:18px;top:calc(7% + min(43vh,45vw,340px) + 12px);text-align:center;display:flex;align-items:center;flex-direction:column}
+.finale-eyebrow{font:9px Arial,sans-serif;letter-spacing:.34em;color:#d6b7a0;opacity:0;transform:translateY(12px)}
+.finale.active .finale-eyebrow{animation:signatureIn .7s 3.6s forwards}
+.finale-title h2{font:800 clamp(38px,7.2vw,76px)/1 Arial,sans-serif;letter-spacing:.2em;margin:14px 0 0;padding-left:.2em;color:#fff0e9;text-shadow:0 0 8px #e8c57a22,0 0 40px #d40c242e;opacity:0;transform:translateY(24px);animation:none}
+.finale.active .finale-title h2{animation:nickReveal 1.1s 3.95s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes nickReveal{0%{opacity:0;transform:translateY(24px);letter-spacing:.42em;filter:blur(9px)}65%{opacity:1;filter:blur(0)}100%{opacity:1;transform:translateY(0);letter-spacing:.2em;filter:blur(0)}}
+.finale .final-line{width:min(280px,58vw);opacity:0;background:linear-gradient(90deg,transparent,#e3293b,#f6c3a6,#e3293b,transparent);background-size:200% 100%;height:1px;margin:16px auto 13px}
+.finale.active .final-line{animation:lineGlow 2.2s 4.45s ease-in-out infinite alternate}
+@keyframes lineGlow{from{opacity:.35;background-position:0 0;box-shadow:0 0 3px #e3293b}to{opacity:1;background-position:100% 0;box-shadow:0 0 18px #e3293b88}}
+.finale-title p{margin:3px auto!important;font:clamp(11px,1.5vw,15px)/1.5 Arial,sans-serif;letter-spacing:.08em;color:#f4e4d9;opacity:0;transform:translateY(12px)}
+.finale-title p.ru{color:#e6b6b0!important;font-size:clamp(10px,1.3vw,13px)!important}
+.finale.active .finale-title p:nth-of-type(1){animation:signatureIn .7s 4.6s forwards}
+.finale.active .finale-title p:nth-of-type(2){animation:signatureIn .7s 4.8s forwards}
+.finale-author{font:8px Arial,sans-serif;letter-spacing:.22em;color:#b99b91;margin-top:13px;opacity:0}
+.finale.active .finale-author{animation:signatureIn .7s 5s forwards}
+@keyframes signatureIn{to{opacity:.9;transform:translateY(0)}}
+.finale-sign{bottom:25px;color:#a98d86;letter-spacing:.22em;opacity:0}
+.finale.active .finale-sign{animation:signatureIn 1s 5.2s forwards}
+.finale-sign span{display:inline-block;color:#df3b4b;margin:0 10px;animation:twinkle 1.8s ease-in-out infinite alternate}
+@keyframes twinkle{to{transform:rotate(90deg) scale(1.6);text-shadow:0 0 12px #e3293b}}
+.finale.active .final-wall path{animation:drawLine 4.5s .7s ease forwards}
+@media(max-width:650px){
+ .finale .calligraphy{top:8%;width:min(34vh,62vw,250px)}
+ .finale-title{top:calc(8% + min(34vh,62vw,250px) + 8px)}
+ .finale-title h2{font-size:clamp(33px,9vw,55px);letter-spacing:.14em}
+ .finale-sign{font-size:7px;bottom:18px}
+ .finale-eyebrow{font-size:7px;letter-spacing:.22em}
+ .finale-author{font-size:7px;letter-spacing:.13em}
+}
+
+@media(max-width:650px){
+ .slide{padding:45px 30px 76px}.slide::after{inset:9px}.grid{grid-template-columns:1fr;gap:7px}.info{padding:10px 12px}.info h3{font-size:16px}.info p{font-size:11px}.content{max-width:100%}
+ .controls{left:16px;right:16px;bottom:14px;gap:6px}.controls button{padding:8px 10px}.hint{display:none}.top-timer{top:15px;left:17px;transform:none;width:calc(100% - 170px);min-width:130px;padding:6px 8px}.indicator{top:15px;right:17px;padding:7px 9px}
+ .wall-build{height:31%}.intro{padding:35px 30px}.intro-frame{inset:9px}.intro-content{padding-bottom:20vh}.intro-content h1{font-size:clamp(40px,12vw,67px)}.nickname{letter-spacing:.12em}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Per-slide cinematic motifs: each chapter gets its own restrained animation language. */
+.slide{--accent:#e8c57a;--motion-x:0px;--motion-y:0px}
+.slide[data-effect="wall"]{--accent:#e8c57a}
+.slide[data-effect="brush"]{--accent:#f05a62}
+.slide[data-effect="signal"]{--accent:#f5c56d}
+.slide[data-effect="map"]{--accent:#8fc5d8}
+.slide[data-effect="brick"]{--accent:#d7b878}
+.slide[data-effect="cloud"]{--accent:#b9c6dc}
+.slide[data-effect="stamp"]{--accent:#ed6568}
+.slide[data-effect="lantern"]{--accent:#f2a65a}
+.slide[data-effect="mountain"]{--accent:#d8c6a0}
+.motion-art{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .6s ease}
+.slide.active .motion-art{opacity:1}
+.motion-art .motion-orb{position:absolute;width:clamp(100px,22vw,280px);aspect-ratio:1;border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:50%;right:8%;top:19%;opacity:0;transform:scale(.65);box-shadow:0 0 50px color-mix(in srgb,var(--accent) 12%,transparent),inset 0 0 40px color-mix(in srgb,var(--accent) 8%,transparent)}
+.slide.active .motion-orb{animation:orbBloom 1.6s .15s cubic-bezier(.16,1,.3,1) forwards,orbBreathe 5s 1.8s ease-in-out infinite alternate}
+@keyframes orbBloom{to{opacity:.75;transform:scale(1)}}
+@keyframes orbBreathe{to{transform:scale(1.07);opacity:.35}}
+.motion-art .motion-streak{position:absolute;left:-30%;top:32%;width:70%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transform:rotate(-16deg)}
+.slide.active .motion-streak{animation:streakPass 1.3s .1s ease-out forwards}
+@keyframes streakPass{0%{left:-35%;opacity:0}20%{opacity:.75}100%{left:110%;opacity:0}}
+.motion-art .motion-glyph{position:absolute;right:12%;top:22%;font-size:clamp(70px,13vw,170px);font-family:serif;color:var(--accent);opacity:0;transform:translateY(18px) rotate(-8deg);text-shadow:0 0 35px color-mix(in srgb,var(--accent) 24%,transparent)}
+.slide.active .motion-glyph{animation:glyphFade 1.4s .3s ease forwards}
+@keyframes glyphFade{to{opacity:.12;transform:translateY(0) rotate(0)}}
+.motion-art .motion-route{display:none;position:absolute;right:4%;bottom:18%;width:42%;height:32%;opacity:0}
+.motion-art .motion-route path{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:500;stroke-dashoffset:500}
+.slide.active .motion-route{animation:routeAppear .4s .2s forwards}
+.slide.active .motion-route path{animation:routeDraw 2.2s .3s ease forwards}
+@keyframes routeAppear{to{opacity:.6}}
+@keyframes routeDraw{to{stroke-dashoffset:0}}
+.motion-art .motion-sparks{position:absolute;inset:0;background:radial-gradient(circle at 75% 30%,color-mix(in srgb,var(--accent) 17%,transparent),transparent 26%),radial-gradient(circle at 88% 75%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 22%);animation:lightPulse 4s ease-in-out infinite alternate}
+@keyframes lightPulse{to{opacity:.3;transform:scale(1.06)}}
+.slide.active .content>*{animation:staggerIn .75s cubic-bezier(.16,1,.3,1) both}
+.slide.active .content>*:nth-child(1){animation-delay:.08s}
+.slide.active .content>*:nth-child(2){animation-delay:.18s}
+.slide.active .content>*:nth-child(3){animation-delay:.28s}
+.slide.active .content>*:nth-child(4){animation-delay:.38s}
+.slide.active .content>*:nth-child(5){animation-delay:.48s}
+.slide.active .content>*:nth-child(6){animation-delay:.58s}
+.slide.active .content>*:nth-child(7){animation-delay:.68s}
+.slide.active .content>*:nth-child(8){animation-delay:.78s}
+.slide.active .content>*:nth-child(9){animation-delay:.88s}
+.slide.active .content>*:nth-child(10){animation-delay:.98s}
+.slide.active .content>*:nth-child(11){animation-delay:1.08s}
+.ming-timeline{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-top:24px;padding:17px 16px;border:1px solid #e8c57a55;background:linear-gradient(110deg,#080e16c9,#35101988,#080e16b8);backdrop-filter:blur(8px);position:relative;overflow:hidden}
+.ming-timeline>div:not(.ming-line):not(.ming-seal){display:flex;flex-direction:column;gap:4px;min-width:100px}
+.ming-timeline b{font:800 clamp(19px,2.5vw,30px) Arial,sans-serif;color:#f5d38a}
+.ming-timeline span{font:11px Arial,sans-serif;color:#fff0d8}
+.ming-timeline small{font:10px Arial,sans-serif;color:#d9c4aa}
+.ming-line{flex:1;min-width:35px;height:2px;background:#e8c57a35;position:relative;overflow:hidden}
+.ming-line i{display:block;width:40%;height:100%;background:linear-gradient(90deg,transparent,#f5d38a,transparent);animation:timelineSweep 2.5s ease-in-out infinite}
+@keyframes timelineSweep{from{transform:translateX(-120%)}to{transform:translateX(300%)}}
+.ming-seal{margin-left:auto;border:1px solid #d42b3a;color:#ff454f;padding:8px 12px;font:28px serif;text-align:center;transform:rotate(7deg);box-shadow:0 0 18px #d42b3a18;animation:sealPulse 3s ease-in-out infinite alternate}
+.ming-seal small{font:8px Arial,sans-serif;letter-spacing:.2em}
+@keyframes sealPulse{to{box-shadow:0 0 22px #d42b3a50;transform:rotate(3deg) scale(1.04)}}
+.slide.active[data-effect="brush"] .content h2{text-shadow:0 0 25px #d90f2024}
+.slide.active[data-effect="signal"] .info{animation:cardFloat 4s ease-in-out infinite alternate}
+.slide.active[data-effect="signal"] .info:nth-child(2n){animation-delay:-2s}
+@keyframes cardFloat{to{transform:translateY(-3px)}}
+.slide.active[data-effect="brick"] .metric strong{text-shadow:0 0 24px #e8c57a30}
+@media(max-width:650px){.motion-art .motion-orb{right:-8%;top:20%;opacity:.6}.motion-art .motion-glyph{right:3%;top:18%;font-size:100px}.motion-art .motion-route{display:none;width:55%;right:-3%;bottom:15%}.ming-timeline{gap:9px;padding:12px}.ming-timeline>div:not(.ming-line):not(.ming-seal){min-width:82px}.ming-seal{padding:5px 8px;font-size:23px}}
+@media(prefers-reduced-motion:reduce){.motion-art *,.ming-timeline *{animation:none!important}}
+
+
+.slide.enter-forward{animation:slideForward .85s cubic-bezier(.2,.8,.2,1) both}
+.slide.enter-back{animation:slideBack .85s cubic-bezier(.2,.8,.2,1) both}
+@keyframes slideForward{from{clip-path:inset(0 0 0 100%);filter:brightness(1.6) blur(5px)}to{clip-path:inset(0);filter:brightness(1) blur(0)}}
+@keyframes slideBack{from{clip-path:inset(0 100% 0 0);filter:brightness(1.6) blur(5px)}to{clip-path:inset(0);filter:brightness(1) blur(0)}}
+@media(max-width:650px){.slide.enter-forward,.slide.enter-back{animation-duration:.6s}}
+
+
+/* Unique miniature scenes for each chapter */
+.motion-art .scene{position:absolute;right:3%;bottom:7%;width:min(43vw,520px);height:min(34vh,250px);opacity:0;transform:translateY(18px);transition:opacity .5s ease}
+.slide.active .motion-art .scene{opacity:1;transform:translateY(0)}
+.scene svg{width:100%;height:100%;overflow:visible}
+.scene .draw{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:700;stroke-dashoffset:700}
+.slide.active .scene .draw{animation:sceneDraw 2.4s .15s ease forwards}
+.scene .fill{fill:color-mix(in srgb,var(--accent) 16%,transparent);stroke:var(--accent);stroke-width:1.4}
+.scene .solid{fill:var(--accent);opacity:.75}
+@keyframes sceneDraw{to{stroke-dashoffset:0}}
+/* 1. Opening: wall rises in brick courses */
+.scene-wall .brick{opacity:0;transform:translateY(12px)}
+.slide.active .scene-wall .brick{animation:brickRise .45s forwards}
+.slide.active .scene-wall .brick:nth-child(2){animation-delay:.1s}
+.slide.active .scene-wall .brick:nth-child(3){animation-delay:.2s}
+.slide.active .scene-wall .brick:nth-child(4){animation-delay:.3s}
+.slide.active .scene-wall .brick:nth-child(5){animation-delay:.4s}
+.slide.active .scene-wall .brick:nth-child(6){animation-delay:.5s}
+.slide.active .scene-wall .brick:nth-child(7){animation-delay:.6s}
+.slide.active .scene-wall .brick:nth-child(8){animation-delay:.7s}
+@keyframes brickRise{to{opacity:.9;transform:translateY(0)}}
+/* 2. Map: a glowing route travels across a map */
+.scene-map .traveller{offset-path:path("M 15 145 C 60 120, 75 45, 130 85 S 205 150, 275 55");offset-distance:0%;fill:#fff1b5;filter:drop-shadow(0 0 7px var(--accent))}
+.slide.active .scene-map .traveller{animation:travelRoute 4s .5s ease-in-out infinite alternate}
+@keyframes travelRoute{to{offset-distance:100%}}
+/* 3. History: timeline pulses through eras */
+.scene-time .era{opacity:.25;transform-origin:center}
+.slide.active .scene-time .era{animation:eraPulse 3s ease-in-out infinite}
+.slide.active .scene-time .era:nth-child(2){animation-delay:.5s}
+.slide.active .scene-time .era:nth-child(3){animation-delay:1s}
+@keyframes eraPulse{50%{opacity:1;transform:scale(1.08)}}
+/* 4. Ming: a watchtower is assembled brick by brick */
+.scene-ming .tower-piece{opacity:0;transform:translateY(9px)}
+.slide.active .scene-ming .tower-piece{animation:towerAssemble .5s forwards}
+.slide.active .scene-ming .tower-piece:nth-child(2){animation-delay:.25s}
+.slide.active .scene-ming .tower-piece:nth-child(3){animation-delay:.5s}
+.slide.active .scene-ming .tower-piece:nth-child(4){animation-delay:.75s}
+@keyframes towerAssemble{to{opacity:1;transform:translateY(0)}}
+/* 5. Defence: shield glows and ripples */
+.scene-shield .ring{transform-origin:150px 100px;opacity:0}
+.slide.active .scene-shield .ring{animation:shieldRipple 2.2s ease-out infinite}
+.slide.active .scene-shield .ring:nth-child(2){animation-delay:.7s}
+.slide.active .scene-shield .ring:nth-child(3){animation-delay:1.4s}
+@keyframes shieldRipple{0%{transform:scale(.45);opacity:.75}100%{transform:scale(1.5);opacity:0}}
+/* 6. Engineering: pulley/crane lifts a stone */
+.scene-build .stone{animation:stoneLift 2.8s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes stoneLift{to{transform:translateY(-24px)}}
+/* 7. Towers: beacon flashes */
+.scene-beacon .beam{opacity:0}
+.slide.active .scene-beacon .beam{animation:beaconFlash 2.6s ease-in-out infinite}
+@keyframes beaconFlash{0%,35%,100%{opacity:0}45%,75%{opacity:.7}}
+/* 8. Scale: tiny walkers cross the wall */
+.scene-scale .walker{animation:walkerMove 5s linear infinite}
+.scene-scale .walker:nth-child(2){animation-delay:-2.5s}
+@keyframes walkerMove{from{transform:translateX(-35px)}to{transform:translateX(320px)}}
+/* 9. Myth: ink cloud and floating question marks */
+.scene-myth .mist{animation:mistDrift 5s ease-in-out infinite alternate}
+.scene-myth .question{animation:questionFloat 2.8s ease-in-out infinite alternate}
+.scene-myth .question:nth-child(2){animation-delay:-1.4s}
+@keyframes mistDrift{to{transform:translateX(-18px) scale(1.06);opacity:.25}}
+@keyframes questionFloat{to{transform:translateY(-13px) rotate(7deg);opacity:.9}}
+/* 10. People: lanterns sway */
+.scene-people .lantern{transform-origin:top center;animation:lanternSway 3s ease-in-out infinite alternate}
+.scene-people .lantern:nth-child(2){animation-delay:-1.2s}
+.scene-people .lantern:nth-child(3){animation-delay:-2s}
+@keyframes lanternSway{to{transform:rotate(8deg)}}
+/* 11. Heritage: mountain layers move at different speeds */
+.scene-heritage .mountain-back{animation:mountainDrift 8s ease-in-out infinite alternate}
+.scene-heritage .mountain-front{animation:mountainDrift 5s ease-in-out infinite alternate-reverse}
+@keyframes mountainDrift{to{transform:translateX(12px)}}
+/* 12. Conclusion: sparks converge toward the wall */
+.scene-finale .spark{opacity:0}
+.slide.active .scene-finale .spark{animation:sparkRise 2.8s ease-out infinite}
+.slide.active .scene-finale .spark:nth-child(2){animation-delay:.4s}
+.slide.active .scene-finale .spark:nth-child(3){animation-delay:.8s}
+.slide.active .scene-finale .spark:nth-child(4){animation-delay:1.2s}
+@keyframes sparkRise{0%{opacity:0;transform:translateY(18px) scale(.5)}35%{opacity:1}100%{opacity:0;transform:translateY(-40px) scale(1.2)}}
+@media(max-width:650px){.motion-art .scene{width:65vw;height:22vh;right:0;bottom:4%;opacity:.7}.motion-art .motion-orb{opacity:.25}}
+
+
+/* Enhanced atmosphere and the bilingual class quiz */
+
+/* Readability correction: question text stays perfectly sharp on mobile and desktop. */
+.quiz-slide,.quiz-slide .content,.quiz-slide .quiz-content,.quiz-slide .quiz-grid,.quiz-slide .quiz-card,
+.quiz-slide .quiz-card h3,.quiz-slide .quiz-card p,.quiz-slide .quiz-number{filter:none!important;-webkit-filter:none!important;text-rendering:geometricPrecision}
+.quiz-slide .quiz-card h3,.quiz-slide .quiz-card p{position:relative;z-index:2;opacity:1;text-shadow:0 1px 2px #000b;transform:none!important}
+.quiz-slide .quiz-card{will-change:transform,opacity}
+.quiz-slide .quiz-card:hover{border-color:#ffe3a0;box-shadow:0 0 0 1px #e8c57a55,0 14px 38px #000a,0 0 24px #e8c57a20;transform:translateY(-3px)}
+.quiz-slide .quiz-card::before{content:"";position:absolute;inset:0;border-left:2px solid #e8c57a;opacity:.5;pointer-events:none}
+
+.slide.active .motion-art::before{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg at 72% 42%,transparent 0 18%,color-mix(in srgb,var(--accent) 10%,transparent) 22%,transparent 34% 62%,color-mix(in srgb,var(--accent) 8%,transparent) 68%,transparent 82%);filter:blur(18px);animation:ambientTurn 24s linear infinite;opacity:.65}
+.slide.active .motion-art::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 32%,color-mix(in srgb,var(--accent) 10%,transparent) 49%,transparent 62%);transform:translateX(-120%);animation:ambientSweep 7s 1s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes ambientTurn{to{transform:rotate(360deg)}}
+@keyframes ambientSweep{55%,100%{transform:translateX(120%)}}
+.motion-sparks i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px 3px color-mix(in srgb,var(--accent) 55%,transparent);opacity:0;animation:dustRise var(--dust-duration,7s) var(--dust-delay,0s) ease-in-out infinite}
+@keyframes dustRise{0%{transform:translate3d(0,35px,0) scale(.3);opacity:0}25%{opacity:.8}75%{opacity:.5}100%{transform:translate3d(var(--dust-drift,20px),-75px,0) scale(1.4);opacity:0}}
+.slide.active .bg{animation:cinemaPan 24s ease-in-out infinite alternate,photoBreath 8s ease-in-out infinite alternate}
+@keyframes photoBreath{to{filter:saturate(.95) contrast(1.1) brightness(1.08)}}
+.slide.active .rule{animation:ruleGlow 3s ease-in-out infinite alternate}
+@keyframes ruleGlow{to{box-shadow:0 0 18px #e8c57a70;width:125px}}
+.quiz-slide{--accent:#f2c878}
+.quiz-slide::before{background:linear-gradient(90deg,rgba(5,10,16,.96),rgba(5,10,16,.82) 58%,rgba(5,10,16,.5)),radial-gradient(ellipse at 80% 45%,#8b5b2430,transparent 50%)}
+.quiz-content{max-width:1050px;width:100%;padding-top:20px}
+.quiz-content h2{margin-bottom:12px}
+.quiz-subtitle{color:#f0d9a7;font-size:clamp(12px,1.3vw,16px);letter-spacing:.08em;margin:0 0 16px}
+.quiz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;perspective:900px}
+.quiz-card{position:relative;display:flex;align-items:flex-start;gap:13px;min-height:82px;padding:12px 14px;border:1px solid #e8c57a78;background:linear-gradient(120deg,rgba(5,10,16,.98),rgba(17,24,34,.97));backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 32px #0008;overflow:hidden;opacity:0;transform:translate3d(0,24px,0);animation:none;transition:border-color .3s,transform .3s,box-shadow .3s;isolation:isolate}
+.quiz-card::after{content:"";position:absolute;top:-60%;bottom:-60%;left:-45%;width:28%;background:linear-gradient(90deg,transparent,#fff4d044,transparent);transform:rotate(18deg);animation:quizShine 5s ease-in-out infinite}
+@keyframes quizShine{0%,45%{left:-45%}75%,100%{left:130%}}
+.quiz-slide.active .quiz-card{animation:quizCardIn .75s cubic-bezier(.16,1,.3,1) forwards}
+.quiz-slide.active .quiz-card:nth-child(2){animation-delay:.12s}.quiz-slide.active .quiz-card:nth-child(3){animation-delay:.24s}.quiz-slide.active .quiz-card:nth-child(4){animation-delay:.36s}.quiz-slide.active .quiz-card:nth-child(5){animation-delay:.48s}.quiz-slide.active .quiz-card:nth-child(6){animation-delay:.60s}
+@keyframes quizCardIn{to{opacity:1;transform:translate3d(0,0,0)}}
+.quiz-number{flex:0 0 31px;width:31px;height:31px;display:grid;place-items:center;border:1px solid #e8c57a99;border-radius:50%;color:#ffe4a6;font:700 11px Arial,sans-serif;box-shadow:0 0 18px #e8c57a20;animation:numberPulse 2.8s ease-in-out infinite alternate}
+@keyframes numberPulse{to{box-shadow:0 0 22px #e8c57a75;transform:scale(1.08)}}
+.quiz-card h3{margin:0 0 6px;color:#ffe3a8;font:700 clamp(12px,1.2vw,15px)/1.35 Arial,sans-serif}
+.quiz-card p{margin:0;color:#e7e2d8;font:clamp(11px,1.05vw,13px)/1.4 Arial,sans-serif}
+.quiz-footer{display:flex;justify-content:space-between;gap:12px;margin-top:16px;color:#d9bd82;font:9px Arial,sans-serif;letter-spacing:.2em;opacity:0}
+.quiz-slide.active .quiz-footer{animation:footerReveal .8s 1s forwards}
+@keyframes footerReveal{to{opacity:.85;letter-spacing:.25em}}
+.scene-quiz{width:min(28vw,340px)!important;height:min(28vh,220px)!important;right:4%!important;bottom:10%!important}
+.scene-quiz .quiz-orbit{fill:none;stroke:var(--accent);stroke-width:1;opacity:.55;stroke-dasharray:5 8;transform-origin:160px 90px}
+.scene-quiz .orbit-one{animation:orbitSpin 18s linear infinite}.scene-quiz .orbit-two{animation:orbitSpin 26s linear infinite reverse}
+.scene-quiz .quiz-core{fill:#f2c87820;stroke:#ffe1a0;stroke-width:1.5;filter:drop-shadow(0 0 12px #e8c57a88);animation:corePulse 2s ease-in-out infinite alternate}
+.scene-quiz .quiz-dot{fill:#ffe3a8;filter:drop-shadow(0 0 7px #e8c57a)}
+@keyframes orbitSpin{to{transform:rotate(360deg)}}@keyframes corePulse{to{r:34;opacity:.65}}
+@media(max-width:650px){.quiz-content{padding-top:24px}.quiz-grid{gap:7px}.quiz-card{min-height:72px;padding:9px 10px;gap:8px}.quiz-number{width:25px;height:25px;flex-basis:25px;font-size:9px}.quiz-card h3{font-size:11px}.quiz-card p{font-size:10px}.quiz-footer{font-size:7px;letter-spacing:.1em}.scene-quiz{opacity:.3!important;width:40vw!important}}
+@media(max-height:700px) and (min-width:651px){.quiz-card{min-height:68px;padding:9px 12px}.quiz-content{padding-top:8px}.quiz-grid{gap:7px}.quiz-subtitle{margin-bottom:10px}.quiz-footer{margin-top:10px}}
+
+
+/* Stronger cinematic motion pass: brighter, more visible effects without obscuring content. */
+.slide.active .motion-orb{border-width:2px;box-shadow:0 0 70px color-mix(in srgb,var(--accent) 25%,transparent),inset 0 0 55px color-mix(in srgb,var(--accent) 18%,transparent)}
+.slide.active .motion-streak{height:2px;box-shadow:0 0 16px var(--accent),0 0 34px color-mix(in srgb,var(--accent) 55%,transparent)}
+.slide.active .motion-sparks{animation:lightPulse 2.8s ease-in-out infinite alternate}
+.slide.active .motion-art::before{opacity:.9;filter:blur(12px)}
+.slide.active .motion-art::after{animation-duration:4.8s}
+.slide.active .scene{filter:drop-shadow(0 0 12px color-mix(in srgb,var(--accent) 28%,transparent))}
+.slide.active .scene svg{overflow:visible}
+.slide.active .content .rule{box-shadow:0 0 15px #e8c57a55}
+.slide.active::after{animation:frame 2.8s ease-in-out infinite alternate}
+@keyframes finaleEnergyBreathe{0%,100%{transform:translate(-50%,0) scale(.94);opacity:.72}50%{transform:translate(-50%,-5px) scale(1.06);opacity:1}}
+.finale-energy{position:absolute;z-index:3;left:50%;bottom:8.2%;width:min(300px,62vw);height:74px;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;filter:drop-shadow(0 0 15px #d7193038)}
+.finale.active .finale-energy{animation:energyReveal 1.1s 5.35s cubic-bezier(.16,1,.3,1) forwards,finaleEnergyBreathe 3.4s 6.5s ease-in-out infinite}
+@keyframes energyReveal{from{opacity:0;transform:translate(-50%,18px) scale(.7)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+.energy-ring{position:absolute;left:50%;top:50%;border:1px solid #e9bd755c;border-radius:50%;transform:translate(-50%,-50%);}
+.energy-ring.ring-a{width:210px;height:35px;border-color:#e8c57a99;animation:energyOrbit 7s linear infinite}
+.energy-ring.ring-b{width:170px;height:48px;border-color:#e23a4c99;transform:translate(-50%,-50%) rotate(-18deg);animation:energyOrbit 5.5s linear infinite reverse}
+.energy-ring.ring-c{width:245px;height:24px;border-style:dashed;border-color:#f2d8a455;animation:energyOrbit 12s linear infinite}
+@keyframes energyOrbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.energy-core{position:absolute;width:9px;height:9px;border-radius:50%;background:#ff4656;box-shadow:0 0 8px #ff263d,0 0 20px #e3293b,0 0 38px #e3293b88;animation:coreBeat 1.5s ease-in-out infinite}
+@keyframes coreBeat{50%{transform:scale(1.65);box-shadow:0 0 14px #ff263d,0 0 32px #e3293b}}
+.energy-mark{position:absolute;font:800 9px Arial,sans-serif;letter-spacing:.35em;color:#f1d6a0;text-shadow:0 0 12px #e8c57a;opacity:.85;margin-left:3px}
+.energy-ray{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffe3a3;box-shadow:0 0 10px 3px #e8c57a;animation:rayDrift 2.6s ease-in-out infinite}
+.energy-ray.ray-a{left:18%;top:48%;animation-delay:.2s}.energy-ray.ray-b{right:17%;top:35%;animation-delay:.9s}.energy-ray.ray-c{left:34%;bottom:8%;animation-delay:1.5s}
+@keyframes rayDrift{0%,100%{transform:translateY(8px) scale(.5);opacity:0}40%{opacity:1}70%{transform:translateY(-17px) scale(1.5);opacity:.9}}
+.energy-dust{position:absolute;inset:0;background:radial-gradient(circle at 12% 50%,#f1d39a 0 1px,transparent 2px),radial-gradient(circle at 86% 44%,#e94453 0 1px,transparent 2px),radial-gradient(circle at 28% 20%,#f1d39a 0 1px,transparent 2px),radial-gradient(circle at 72% 82%,#f1d39a 0 1px,transparent 2px);opacity:.8;animation:dustTwinkle 2s ease-in-out infinite alternate}
+@keyframes dustTwinkle{to{opacity:.25;transform:scale(1.08)}}
+@media(max-width:650px){.finale-energy{bottom:8%;width:min(250px,70vw);height:58px}.energy-ring.ring-a{width:175px;height:29px}.energy-ring.ring-b{width:142px;height:38px}.energy-ring.ring-c{width:205px;height:20px}}
+
+</style>
+</head>
+<body>
+<div class="deck">
+  <div class="intro" id="intro">
+    <img class="intro-bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Великая Китайская стена среди гор">
+    <div class="intro-shade"></div><div class="intro-frame"></div>
+    <div class="wall-build" aria-hidden="true"><svg id="buildWall" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMax slice"></svg></div>
+    <div class="intro-content">
+      <div class="kicker">CHINA · HISTORY · HUMAN ACHIEVEMENT</div>
+      <h1>The Great Wall<br>of China</h1>
+      <div class="rule"></div>
+      <p>A journey along one of the greatest monuments ever built.</p>
+      <p class="ru">Путешествие вдоль одного из величайших сооружений, созданных человеком.</p>
+      <div class="nickname">TOOLGOOL</div>
+      <button class="start-button" id="start"><span>▶</span> НАЧАТЬ ПРЕЗЕНТАЦИЮ <small>START PRESENTATION</small></button>
+      <div class="author">CREATED BY ЫСМАЙЫЛОВ БАХТИЯР</div>
+    </div>
+  </div>
+  <div class="top-timer"><div class="timer-label"><span>SLIDE ENDS IN</span><b id="timeLeft">60s</b></div><div class="timer-track"><div class="timer-fill" id="timerFill"></div></div></div>
+  <div class="indicator"><b id="topCount">01</b><span id="chapter">INTRODUCTION</span></div>
+
+  <section class="slide active" data-effect="wall"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-wall"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M8 142 L8 115 L35 115 L35 95 L65 95 L65 110 L93 110 L93 82 L120 82 L120 96 L148 96 L148 70 L176 70 L176 86 L205 86 L205 57 L232 57 L232 76 L260 76 L260 45 L287 45 L287 142 Z"/><g class="brick"><path class="draw" d="M10 127H60M66 109H116M121 123H171M177 98H226M232 91H285"/></g><g class="brick"><path class="draw" d="M22 142V126M47 142V126M80 125V110M103 125V110M139 141V124M161 141V124M194 119V100M216 119V100M249 106V91M273 106V91"/></g><path class="draw" d="M0 143H320"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Великая Китайская стена на горном хребте">
+    <div class="sparks"></div><div class="content">
+      <div class="kicker">A monument across the mountains</div><h1>The Great Wall<br>of China</h1><div class="rule"></div>
+      <p>The Great Wall is a vast system of walls, fortifications and natural barriers built and rebuilt over many centuries to defend the Chinese states and empires.</p>
+      <p class="ru">Великая Китайская стена — огромная система стен, укреплений и естественных преград. Её строили и перестраивали на протяжении многих веков для защиты китайских государств и империй.</p>
+      <div class="pills"><span class="pill">HISTORY / ИСТОРИЯ</span><span class="pill">ARCHITECTURE / АРХИТЕКТУРА</span><span class="pill">CHINA / КИТАЙ</span></div>
+      <div class="caption">A story of defence, engineering and human effort</div>
+    </div>
+  </section>
+  <section class="slide" data-effect="map"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-map"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M20 20L94 8L120 40L175 22L220 48L300 28L290 155L220 168L170 138L98 164L26 138Z"/><path class="draw" d="M35 125C75 118 77 54 126 69S191 143 274 61" stroke-dasharray="5 7"/><circle class="traveller" cx="0" cy="0" r="5"/><text x="35" y="42" fill="var(--accent)" font-size="10">NORTH</text><circle class="fill" cx="126" cy="69" r="6"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?auto=format&fit=crop&w=2200&q=85" alt="Китайский пейзаж и историческая архитектура">
+    <div class="content"><div class="kicker">01 / Where it is</div><h2>Across northern China</h2><div class="rule"></div>
+      <p>The Wall stretches across northern China, crossing mountain ridges, valleys, deserts and grasslands. Different sections were built in different landscapes, so the structure changes from place to place.</p>
+      <p class="ru">Стена проходит через северные районы Китая: по горным хребтам, долинам, пустыням и степям. Участки строили в разных природных условиях, поэтому их внешний вид и устройство отличаются.</p>
+      <p>Its dramatic route is part of what makes the Wall so recognisable: it follows the shape of the land rather than a straight line.</p>
+      <p class="ru">Извилистый маршрут стал одной из её отличительных особенностей: стена повторяет рельеф местности, а не идёт по прямой.</p>
+    </div>
+  </section>
+  <section class="slide" data-effect="brush"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-time"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M24 110H296"/><g class="era"><circle class="fill" cx="48" cy="110" r="20"/><text x="48" y="115" text-anchor="middle" fill="var(--accent)" font-size="13">BC</text></g><g class="era"><circle class="fill" cx="160" cy="110" r="20"/><text x="160" y="115" text-anchor="middle" fill="var(--accent)" font-size="13">QIN</text></g><g class="era"><circle class="fill" cx="272" cy="110" r="20"/><text x="272" y="115" text-anchor="middle" fill="var(--accent)" font-size="11">MING</text></g><path class="draw" d="M48 80V48M160 80V36M272 80V48"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Башни и стена на горном хребте">
+    <div class="content"><div class="kicker">02 / Many centuries of building</div><h2>Not built in one day</h2><div class="rule"></div>
+      <p>Early Chinese states built defensive walls long before China was unified. In the 3rd century BC, Qin Shi Huang connected and expanded some existing fortifications. Later dynasties added, repaired and rebuilt sections.</p>
+      <p class="ru">Ранние китайские государства возводили оборонительные стены ещё до объединения Китая. В III веке до н. э. Цинь Шихуанди соединил и расширил часть уже существовавших укреплений. Позднее другие династии продолжали строительство и ремонт.</p>
+      <p>The Wall we most often see in photographs largely reflects work from the Ming dynasty, especially from the 14th to 17th centuries.</p>
+      <p class="ru">Участки, которые чаще всего встречаются на фотографиях, в основном связаны с эпохой династии Мин, особенно с XIV–XVII веками.</p>
+      <div class="pills"><span class="pill">QIN DYNASTY / ЦИНЬ</span><span class="pill">MING DYNASTY / МИН</span></div>
+    </div>
+  </section>
+  <section class="slide ming-slide" data-effect="brush"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-ming"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M8 150H312"/><g class="tower-piece"><path class="draw" d="M105 150V91H215V150M94 91H226L210 76H110Z"/></g><g class="tower-piece"><path class="draw" d="M90 76L112 57H208L230 76ZM120 57V44H200V57M130 44V34H190V44"/></g><g class="tower-piece"><path class="draw" d="M125 34V26H195V34M140 26V18H180V26"/></g><g class="tower-piece"><path class="draw" d="M122 110H198M122 126H198M140 91V150M180 91V150"/></g></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Великая Китайская стена эпохи Мин">
+    <div class="content">
+      <div class="kicker">03 / The Ming dynasty · 1368–1644</div>
+      <h2>The Wall we know today</h2><div class="rule"></div>
+      <p>The Ming dynasty did not begin the Great Wall from scratch. Earlier states and dynasties had built defensive walls for centuries. From the 14th to the 17th century, the Ming rulers carried out extensive rebuilding and strengthening, creating many of the brick-and-stone sections seen today.</p>
+      <p class="ru">Династия Мин не начала строить Великую Китайскую стену с нуля. Оборонительные стены возводили ещё задолго до неё. В XIV–XVII веках при Мин многие участки масштабно перестраивали и укрепляли. Именно к этой эпохе относятся многие известные сегодня кирпичные и каменные участки.</p>
+      <div class="ming-timeline">
+        <div><b>1368</b><span>Rise of the Ming</span><small>Начало династии Мин</small></div>
+        <div class="ming-line"><i></i></div>
+        <div><b>14th–17th c.</b><span>Major rebuilding</span><small>Масштабное укрепление стены</small></div>
+        <div class="ming-seal">明<br><small>MÍNG</small></div>
+      </div>
+      <p class="caption">Not the beginning of the Wall — a major chapter in its history.</p>
+    </div>
+  </section>
+  <section class="slide" data-effect="brick"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-shield"><svg viewBox="0 0 320 180" aria-hidden="true"><circle class="ring draw" cx="150" cy="100" r="30"/><circle class="ring draw" cx="150" cy="100" r="30"/><circle class="ring draw" cx="150" cy="100" r="30"/><path class="draw" d="M150 42L196 60V96C196 124 175 145 150 158C125 145 104 124 104 96V60Z"/><path class="draw" d="M130 98L145 113L174 81"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Каменная кладка Великой стены">
+    <div class="content"><div class="kicker">03 / Why build it?</div><h2>A line of defence</h2><div class="rule"></div>
+      <div class="grid">
+        <div class="info"><h3>Early warning</h3><p>Watchtowers helped guards observe movement across the landscape.</p><p class="ru">Сторожевые башни помогали наблюдать за передвижениями на местности.</p></div>
+        <div class="info"><h3>Communication</h3><p>Signals could warn distant garrisons of danger.</p><p class="ru">Сигналы позволяли передавать предупреждения удалённым гарнизонам.</p></div>
+        <div class="info"><h3>Controlled routes</h3><p>Passes and gates helped manage movement through key corridors.</p><p class="ru">Перевалы и ворота помогали контролировать движение через важные проходы.</p></div>
+        <div class="info"><h3>Symbol of power</h3><p>The fortifications also demonstrated the state’s ability to organise large projects.</p><p class="ru">Укрепления показывали способность государства организовывать масштабные проекты.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-effect="lantern"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-build"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M75 155V28H245V155M58 155H262M75 48H245M92 28V155M228 28V155"/><path class="draw" d="M160 28V80"/><g class="stone"><rect class="fill" x="137" y="80" width="46" height="28" rx="2"/><path class="draw" d="M137 89H183M160 80V108"/></g><path class="draw" d="M120 155V130H200V155"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Каменная стена среди гор">
+    <div class="content"><div class="kicker">04 / Engineering</div><h2>Built from what the land offered</h2><div class="rule"></div>
+      <p>Materials varied by region and period. Builders used packed earth, stone, bricks and wood, choosing methods suited to the local terrain and available resources.</p>
+      <p class="ru">Материалы зависели от региона и эпохи. Строители использовали утрамбованную землю, камень, кирпич и дерево, подбирая технологии под рельеф и доступные ресурсы.</p>
+      <p>In some areas, walls were made by compacting layers of earth inside wooden frames. In other places, stone and fired bricks created stronger, more durable surfaces.</p>
+      <p class="ru">В некоторых местах землю послойно утрамбовывали внутри деревянной опалубки. В других районах использовали камень и обожжённый кирпич, создававшие более прочную поверхность.</p>
+      <div class="metric-row"><div class="metric"><strong>Earth</strong><span>Local materials / Местные материалы</span></div><div class="metric"><strong>Stone</strong><span>Mountain sections / Горные участки</span></div><div class="metric"><strong>Brick</strong><span>Many Ming sections / Многие участки Мин</span></div></div>
+    </div>
+  </section>
+  <section class="slide" data-effect="map"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-beacon"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M110 155V75H210V155M95 75H225L210 60H110Z M125 60V43H195V60M138 43V32H182V43M90 155H230"/><path class="beam draw" d="M150 34L45 8M170 34L275 8M160 28V2"/><circle class="fill" cx="160" cy="30" r="8"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Сторожевая башня Великой стены">
+    <div class="content"><div class="kicker">05 / Watchtowers and passes</div><h2>More than a wall</h2><div class="rule"></div>
+      <p>The defence system included watchtowers, beacon towers, gates, forts and passes. Soldiers could watch important routes and use signals to communicate across long distances.</p>
+      <p class="ru">Оборонительная система включала сторожевые и сигнальные башни, ворота, крепости и проходы. Солдаты наблюдали за важными маршрутами и передавали сигналы на большие расстояния.</p>
+      <p>Smoke by day and fire by night could be used to relay warnings. The effectiveness of a signal system depended on visibility, weather and coordination.</p>
+      <p class="ru">Днём для предупреждений могли использовать дым, а ночью — огонь. Эффективность такой связи зависела от видимости, погоды и согласованности действий.</p>
+      <div class="pills"><span class="pill">WATCHTOWERS / БАШНИ</span><span class="pill">GATES / ВОРОТА</span><span class="pill">SIGNALS / СИГНАЛЫ</span></div>
+    </div>
+  </section>
+  <section class="slide" data-effect="stamp"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-scale"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M0 145H320M8 145V104H38V90H68V104H98V80H128V94H158V72H188V88H218V60H248V76H278V50H310V145"/><g class="walker"><circle class="solid" cx="24" cy="119" r="4"/><path class="draw" d="M24 124V137M24 128L17 133M24 128L31 132M24 137L18 145M24 137L30 145"/></g><g class="walker"><circle class="solid" cx="24" cy="119" r="4"/><path class="draw" d="M24 124V137M24 128L17 133M24 128L31 132M24 137L18 145M24 137L30 145"/></g></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Извилистая стена уходит вдаль">
+    <div class="content"><div class="kicker">06 / Scale and geography</div><h2>A vast network</h2><div class="rule"></div>
+      <p>The Great Wall is not one continuous structure. It is a network of separate sections built in different periods, sometimes linked with trenches, rivers or mountain barriers.</p>
+      <p class="ru">Великая Китайская стена — не одно непрерывное сооружение. Это сеть отдельных участков разных эпох, которые могли дополняться рвами, реками и горными преградами.</p>
+      <p>Chinese surveys have reported a total length of about 21,196 kilometres for the many wall sections and associated defences. This figure includes more than the familiar stone-and-brick stretches.</p>
+      <p class="ru">По результатам китайских исследований, общая протяжённость различных участков и связанных с ними укреплений составляет около 21 196 километров. В эту цифру входят не только известные каменные и кирпичные стены.</p>
+      <div class="metric-row"><div class="metric"><strong>≈21,196 km</strong><span>Reported total / Указываемая общая длина</span></div><div class="metric"><strong>Many eras</strong><span>Many sections / Разные эпохи</span></div></div>
+    </div>
+  </section>
+  <section class="slide" data-effect="cloud"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-myth"><svg viewBox="0 0 320 180" aria-hidden="true"><g class="mist" opacity=".5"><path class="draw" d="M18 130C0 105 32 88 53 103C56 74 98 73 112 98C135 74 170 91 165 113C197 98 218 125 202 140H25Z"/></g><text class="question" x="212" y="70" fill="var(--accent)" font-size="42">?</text><text class="question" x="264" y="120" fill="var(--accent)" font-size="30">?</text><path class="draw" d="M30 150H195"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Туристы на Великой Китайской стене">
+    <div class="content"><div class="kicker">07 / Myths and facts</div><h2>What is true?</h2><div class="rule"></div>
+      <div class="grid">
+        <div class="info"><h3>Myth</h3><p>The Wall is clearly visible from the Moon with the naked eye.</p><p class="ru">Миф: стену хорошо видно невооружённым глазом с Луны.</p></div>
+        <div class="info"><h3>Fact</h3><p>It is too narrow to be easily distinguished from that distance without aid.</p><p class="ru">Факт: с такого расстояния её слишком трудно различить без специальных средств.</p></div>
+        <div class="info"><h3>Myth</h3><p>Every section was built at the same time.</p><p class="ru">Миф: все участки построили одновременно.</p></div>
+        <div class="info"><h3>Fact</h3><p>Different states and dynasties built, abandoned and rebuilt sections over centuries.</p><p class="ru">Факт: разные государства и династии строили, оставляли и восстанавливали участки на протяжении веков.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-effect="mountain"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-people"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M20 155H300M55 20V155M140 20V155M225 20V155"/><g class="lantern"><path class="draw" d="M40 48Q55 30 70 48L67 77Q55 90 43 77Z"/><path class="draw" d="M55 20V40M49 79V89H61V79"/></g><g class="lantern"><path class="draw" d="M125 70Q140 52 155 70L152 99Q140 112 128 99Z"/><path class="draw" d="M140 42V62M134 101V111H146V101"/></g><g class="lantern"><path class="draw" d="M210 38Q225 20 240 38L237 67Q225 80 213 67Z"/><path class="draw" d="M225 10V30M219 69V79H231V69"/></g></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Великая Китайская стена в горах">
+    <div class="content"><div class="kicker">08 / People behind the monument</div><h2>The human cost</h2><div class="rule"></div>
+      <p>Construction demanded enormous organisation. Soldiers, labourers, craftspeople and local communities worked in difficult conditions, often far from major settlements.</p>
+      <p class="ru">Строительство требовало огромной организации. Солдаты, рабочие, ремесленники и местные жители трудились в сложных условиях, часто вдали от крупных поселений.</p>
+      <p>The Wall is therefore not only an engineering achievement. It also reflects the lives and labour of countless people whose names were rarely recorded.</p>
+      <p class="ru">Поэтому стена — не только инженерное достижение. Она напоминает о жизни и труде бесчисленного количества людей, чьи имена редко сохранялись в истории.</p>
+      <p class="caption">Behind every stone, there were human hands.</p>
+    </div>
+  </section>
+  <section class="slide" data-effect="wall"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-heritage"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw mountain-back" d="M0 150L55 65L91 105L142 30L202 105L245 56L320 142"/><path class="draw mountain-front" d="M0 165L75 110L120 140L185 86L240 140L285 105L320 140"/><path class="draw" d="M15 150L40 145L40 130L65 130L65 117L90 117L90 130L120 130L120 112L150 112L150 125L180 125L180 100L210 100L210 117L240 117L240 92L270 92L270 110L305 110"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Великая Китайская стена сегодня">
+    <div class="content"><div class="kicker">09 / Heritage today</div><h2>Protected for the future</h2><div class="rule"></div>
+      <p>Today, the Great Wall is a major cultural heritage site and a symbol of China. Some sections are carefully restored and open to visitors, while others are fragile and weathered.</p>
+      <p class="ru">Сегодня Великая Китайская стена — важнейший объект культурного наследия и символ Китая. Некоторые участки тщательно восстановлены и открыты для посетителей, другие остаются хрупкими и разрушаются под воздействием погоды.</p>
+      <p>Preservation requires balancing tourism, safety, local communities and the protection of ancient materials.</p>
+      <p class="ru">Сохранение памятника требует баланса между туризмом, безопасностью, интересами местных жителей и защитой древних материалов.</p>
+      <div class="pills"><span class="pill">UNESCO WORLD HERITAGE / НАСЛЕДИЕ ЮНЕСКО</span><span class="pill">PRESERVATION / СОХРАНЕНИЕ</span></div>
+    </div>
+  </section>
+  <section class="slide" data-effect="brush"><div class="motion-art" aria-hidden="true"><div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div><div class="scene scene-finale"><svg viewBox="0 0 320 180" aria-hidden="true"><path class="draw" d="M15 145L15 115L50 115L50 95L85 95L85 110L120 110L120 80L155 80L155 95L190 95L190 65L225 65L225 80L260 80L260 45L295 45L295 145Z"/><circle class="spark solid" cx="55" cy="75" r="3"/><circle class="spark solid" cx="115" cy="48" r="3"/><circle class="spark solid" cx="210" cy="38" r="3"/><circle class="spark solid" cx="280" cy="25" r="3"/></svg></div></div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Панорама Великой Китайской стены">
+    <div class="content"><div class="kicker">10 / Conclusion</div><h2>A monument that tells many stories</h2><div class="rule"></div>
+      <p>The Great Wall shows how geography, defence, technology and political power shaped Chinese history. It was never just a single wall: it was a changing system built by generations of people.</p>
+      <p class="ru">Великая Китайская стена показывает, как география, оборона, технологии и государственная власть влияли на историю Китая. Это не просто одна стена, а меняющаяся система, которую создавали многие поколения.</p>
+      <p>Its lasting importance lies both in its remarkable scale and in the human stories preserved in its stones, paths and towers.</p>
+      <p class="ru">Её значение заключается и в огромном масштабе, и в человеческих историях, которые хранят её камни, дороги и башни.</p>
+      <div class="caption">Thank you for watching · Спасибо за внимание</div>
+    </div>
+  </section>
+    <section class="slide quiz-slide" data-effect="signal">
+    <div class="motion-art" aria-hidden="true">
+      <div class="motion-sparks"></div><div class="motion-orb"></div><div class="motion-streak"></div>
+      <div class="scene scene-quiz"><svg viewBox="0 0 320 180" aria-hidden="true">
+        <circle class="quiz-orbit orbit-one" cx="160" cy="90" r="62"/><circle class="quiz-orbit orbit-two" cx="160" cy="90" r="82"/>
+        <path class="draw" d="M160 23V49M160 131V157M93 90H119M201 90H227"/>
+        <circle class="quiz-core" cx="160" cy="90" r="27"/><text x="160" y="105" text-anchor="middle" fill="#ffe7ad" font-size="43" font-family="Georgia">?</text>
+        <circle class="quiz-dot" cx="160" cy="8" r="4"/><circle class="quiz-dot" cx="242" cy="90" r="4"/><circle class="quiz-dot" cx="78" cy="90" r="4"/>
+      </svg></div>
+    </div>
+    <img class="bg" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=85" alt="Великая Китайская стена в горах">
+    <div class="sparks"></div>
+    <div class="content quiz-content">
+      <div class="kicker">11 / LET'S TEST OUR KNOWLEDGE</div>
+      <h2>Knowledge Check</h2><div class="rule"></div>
+      <p class="quiz-subtitle">Вопросы для класса · Questions for the class</p>
+      <div class="quiz-grid">
+        <article class="quiz-card"><span class="quiz-number">01</span><div><h3>Когда начали строить первые участки стены?</h3><p>When did construction of the earliest sections begin?</p></div></article>
+        <article class="quiz-card"><span class="quiz-number">02</span><div><h3>Какая династия укрепила многие известные участки стены?</h3><p>Which dynasty strengthened many of the famous sections?</p></div></article>
+        <article class="quiz-card"><span class="quiz-number">03</span><div><h3>Для чего в основном строили стену?</h3><p>What was the main purpose of the Wall?</p></div></article>
+        <article class="quiz-card"><span class="quiz-number">04</span><div><h3>Была ли Великая Китайская стена одной непрерывной стеной?</h3><p>Was the Great Wall one continuous wall?</p></div></article>
+        <article class="quiz-card"><span class="quiz-number">05</span><div><h3>Как передавали сигналы между башнями?</h3><p>How were signals sent between watchtowers?</p></div></article>
+        <article class="quiz-card"><span class="quiz-number">06</span><div><h3>Какова общая заявленная длина системы укреплений?</h3><p>What is the reported total length of the defensive system?</p></div></article>
+      </div>
+      <div class="quiz-footer"><span>DISCUSS · THINK · ANSWER</span><span>ОБСУДИТЕ · ПОДУМАЙТЕ · ОТВЕТЬТЕ</span></div>
+    </div>
+  </section>
+
+<section class="slide finale" id="finale" data-effect="brush"><div class="calligraphy" aria-hidden="true">
+      <div class="ink-aura"></div>
+      <svg viewBox="0 0 240 240" role="presentation" class="fu-svg">
+        <defs>
+          <filter id="inkBleed" x="-30%" y="-30%" width="160%" height="160%">
+            <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="12" result="grain"/>
+            <feDisplacementMap in="SourceGraphic" in2="grain" scale="3"/>
+            <feGaussianBlur stdDeviation=".35"/>
+          </filter>
+          <linearGradient id="inkRed" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff655d"/><stop offset=".48" stop-color="#d90f20"/><stop offset="1" stop-color="#8f0013"/>
+          </linearGradient>
+        </defs>
+        <g filter="url(#inkBleed)" fill="none" stroke="url(#inkRed)" stroke-linecap="round" stroke-linejoin="round">
+          <path class="ink-stroke s1" d="M62 42 Q96 37 133 42 Q158 45 179 39" stroke-width="9"/>
+          <path class="ink-stroke s2" d="M117 27 Q113 53 117 77 Q120 92 115 111" stroke-width="8"/>
+          <path class="ink-stroke s3" d="M50 78 Q82 72 113 78 Q151 83 190 74" stroke-width="8"/>
+          <path class="ink-stroke s4" d="M69 98 Q112 91 165 98 L161 128 Q113 123 73 131 Z" stroke-width="7"/>
+          <path class="ink-stroke s5" d="M43 151 Q77 143 108 151 L105 192 Q75 187 45 197 Z" stroke-width="8"/>
+          <path class="ink-stroke s6" d="M57 163 L92 161 M55 178 L91 176" stroke-width="5"/>
+          <path class="ink-stroke s7" d="M132 149 Q160 143 194 150 L192 197 Q164 191 132 199 Z" stroke-width="8"/>
+          <path class="ink-stroke s8" d="M145 162 L180 160 M143 177 L180 175 M142 190 L179 189" stroke-width="5"/>
+          <path class="ink-stroke s9" d="M31 215 Q72 205 111 213 Q155 221 200 210" stroke-width="8"/>
+        </g>
+      </svg>
+      <span class="ink-seal">福 · FÚ</span>
+    </div>
+    <div class="sparks"></div>
+    <div class="finale-title"><span class="finale-eyebrow">A LEGACY WRITTEN IN STONE</span><h2>Toolgool</h2><div class="final-line"></div><p>The Great Wall of China</p><p class="ru">Великая Китайская стена</p><span class="finale-author">CREATED BY ЫСМАЙЫЛОВ БАХТИЯР</span></div>
+    <div class="finale-energy" aria-hidden="true"><i class="energy-ring ring-a"></i><i class="energy-ring ring-b"></i><i class="energy-ring ring-c"></i><i class="energy-core"></i><i class="energy-ray ray-a"></i><i class="energy-ray ray-b"></i><i class="energy-ray ray-c"></i><span class="energy-mark">TL</span><div class="energy-dust"></div></div>
+    <div class="finale-sign">END OF PRESENTATION <span>✦</span> КОНЕЦ ПРЕЗЕНТАЦИИ</div>
+  </section>
+
+  <div class="controls">
+    <button id="prev" aria-label="Предыдущий слайд">←</button><button id="play" aria-label="Пауза или продолжить">Ⅱ</button><button id="next" aria-label="Следующий слайд">→</button>
+    <div class="progress"><div class="bar" id="bar"></div></div><div class="counter" id="counter">01 / 14</div>
+    <button id="full" aria-label="Полный экран">⛶</button><span class="hint">← → NAVIGATE · SPACE PAUSE</span>
+  </div>
+</div>
+<script>
+(()=>{
+ const slides=[...document.querySelectorAll('.slide')],bar=document.getElementById('bar'),counter=document.getElementById('counter');
+ const names=['INTRODUCTION','LOCATION','TIMELINE','MING DYNASTY','WHY BUILD IT?','ENGINEERING','WATCHTOWERS','THE SCALE','MYTHS','PEOPLE','HERITAGE','CONCLUSION','KNOWLEDGE CHECK','TOOLGOOL'];
+ const duration=60000;let index=0,started=false,playing=false,remaining=duration,last=0,ticker=null;
+ const timeLeft=document.getElementById('timeLeft'),fill=document.getElementById('timerFill');
+ function paint(){timeLeft.textContent=Math.max(0,Math.ceil(remaining/1000))+'s';fill.style.width=Math.max(0,Math.min(100,remaining/duration*100))+'%'}
+ function stop(){clearInterval(ticker);ticker=null}
+ function clock(){stop();last=Date.now();ticker=setInterval(()=>{if(!playing)return;let now=Date.now();remaining-=now-last;last=now;if(remaining<=0){show(index+1);return}paint()},100)}
+ function show(n){const previous=index;index=(n+slides.length)%slides.length;slides.forEach((s,i)=>{s.classList.remove('active','enter-forward','enter-back');});void slides[index].offsetWidth;slides[index].classList.add('active',index>=previous?'enter-forward':'enter-back');document.getElementById('topCount').textContent=String(index+1).padStart(2,'0');document.getElementById('chapter').textContent=names[index]||'CHAPTER';counter.textContent=String(index+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');bar.style.width=((index+1)/slides.length*100)+'%';remaining=duration;paint();if(playing)clock()}
+ function start(){if(started)return;started=true;const intro=document.getElementById('intro'),button=document.getElementById('start');intro.classList.add('building');button.innerHTML='<span>✦</span> СТЕНА ВОЗВОДИТСЯ <small>THE WALL IS RISING</small>';button.disabled=true;setTimeout(()=>{playing=true;intro.classList.add('dismissed');document.getElementById('play').textContent='Ⅱ';show(0)},5200)}
+ function toggle(){if(!started){start();return}playing=!playing;document.getElementById('play').textContent=playing?'Ⅱ':'▶';if(playing)clock();else stop()}
+ document.getElementById('start').onclick=start;document.getElementById('prev').onclick=()=>{if(started)show(index-1)};document.getElementById('next').onclick=()=>{if(started)show(index+1)};document.getElementById('play').onclick=toggle;
+ document.getElementById('full').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
+ document.addEventListener('keydown',e=>{if(!started)return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();show(index+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(index-1)}if(e.code==='Space'){e.preventDefault();toggle()}if(e.key.toLowerCase()==='f')document.getElementById('full').click()});
+ document.querySelectorAll('.sparks').forEach(el=>{for(let i=0;i<35;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*10+'s';p.style.animationDuration=(7+Math.random()*10)+'s';el.appendChild(p)}});
+ // Build the opening wall brick by brick, with staggered animation.
+ const svg=document.getElementById('buildWall'),ns='http://www.w3.org/2000/svg';let row=0;
+ for(let y=150;y<360;y+=28,row++){let col=0;for(let x=-30+(row%2?15:0);x<1230;x+=42,col++){const r=document.createElementNS(ns,'rect');r.setAttribute('x',x);r.setAttribute('y',y);r.setAttribute('width',40);r.setAttribute('height',25);r.setAttribute('rx',1);r.setAttribute('class','brick');r.style.animationDelay=(.15+((col*3+row*7)%37)*.065)+'s';svg.appendChild(r)}}
+ const line=document.createElementNS(ns,'path');line.setAttribute('d','M0 175 Q130 130 240 155 T460 135 T680 155 T900 125 T1200 160');line.setAttribute('class','wall-line');svg.appendChild(line);
+ slides.forEach(s=>{const sp=s.querySelector('.sparks');if(sp)for(let i=0;i<22;i++){let p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*8+'s';p.style.animationDuration=(8+Math.random()*10)+'s';sp.appendChild(p)}});
+ slides.forEach(s=>{const layer=s.querySelector('.motion-sparks');if(layer)for(let i=0;i<14;i++){const p=document.createElement('i');p.style.left=(5+Math.random()*90)+'%';p.style.top=(15+Math.random()*75)+'%';p.style.setProperty('--dust-delay',(-Math.random()*9)+'s');p.style.setProperty('--dust-duration',(6+Math.random()*7)+'s');p.style.setProperty('--dust-drift',((Math.random()-.5)*65)+'px');layer.appendChild(p)}});
+ document.querySelectorAll('.ink-stroke').forEach(path=>{const length=path.getTotalLength();path.style.strokeDasharray=length;path.style.strokeDashoffset=length});
+ slides.forEach((s,i)=>s.classList.toggle('active',i===0));paint();
+})();
+</script>
+</body>
+</html>
